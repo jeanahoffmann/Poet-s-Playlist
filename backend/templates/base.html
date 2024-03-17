@@ -8,10 +8,11 @@
     <div class="full-body-container">
         <div class="top-text">
             <div class="google-colors">
-                <h1 id="google-4">4</h1>
+                <!-- <h1 id="google-4">4</h1>
                 <h1 id="google-3">3</h1>
                 <h1 id="google-0-1">0</h1>
-                <h1 id="google-0-2">0</h1>
+                <h1 id="google-0-2">0</h1> -->
+                <h1 id = 'poet-s-playlist'>Poet's Playlist</h1>
             </div>
             <div class="input-box" onclick="sendFocus()">
                 <img src="{{ url_for('static', filename='images/mag.png') }}" />
@@ -29,7 +30,7 @@
             return `<div class=''>
                 <h3 class='episode-title'>${title}</h3>
                 <p class='episode-desc'>${author}</p>
-                <p class='episode-rating'>text: ${text}</p>
+                <p class='episode-rating'> ${text}</p>
             </div>`
         }
 

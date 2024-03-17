@@ -36,11 +36,15 @@
     color:#DB4437;
 }
 
+#poet-s-playlist{
+    color: black
+}
+
 .google-colors{
     display: flex;
     align-items: center;
     font-size: 48px;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Didot', serif;
 }
 
 .google-colors h1{
