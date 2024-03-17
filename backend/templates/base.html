@@ -25,11 +25,11 @@
 
     <script>
 
-        function answerBoxTemplate(title,titleDesc,rating){
+        function answerBoxTemplate(title,author,text){
             return `<div class=''>
                 <h3 class='episode-title'>${title}</h3>
-                <p class='episode-desc'>${titleDesc}</p>
-                <p class='episode-rating'>IMDB Rating: ${rating}</p>
+                <p class='episode-desc'>${author}</p>
+                <p class='episode-rating'>text: ${text}</p>
             </div>`
         }
 
@@ -45,7 +45,7 @@
             .then((data) => data.forEach(row => {
                 
                 let tempDiv = document.createElement("div")
-                tempDiv.innerHTML = answerBoxTemplate(row.title,row.descr,row.imdb_rating)
+                tempDiv.innerHTML = answerBoxTemplate(row.Title,row.Author,row.text)
                 document.getElementById("answer-box").appendChild(tempDiv)
             }));
 
