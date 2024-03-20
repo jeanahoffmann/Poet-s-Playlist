@@ -1,56 +1,84 @@
-<!doctype html>
-<title>{% block title %}{% endblock %} - Flaskr</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Kanit&family=Montserrat&family=Open+Sans:wght@500&display=swap" rel="stylesheet">
-<body>
-    <div class="full-body-container">
-        <div class="top-text">
-            <div class="google-colors">
-                <!-- <h1 id="google-4">4</h1>
-                <h1 id="google-3">3</h1>
-                <h1 id="google-0-1">0</h1>
-                <h1 id="google-0-2">0</h1> -->
-                <h1 id = 'poet-s-playlist'>Poet's Playlist</h1>
-            </div>
-            <div class="input-box" onclick="sendFocus()">
-                <img src="{{ url_for('static', filename='images/mag.png') }}" />
-                <input placeholder="Enter a poem" id="filter-text-val" onkeyup="filterText()">
-            </div>
-        </div>
-        <div id="answer-box">
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} - Flaskr</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit&family=Montserrat&family=Open+Sans:wght@500&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="static/script.js" async></script>
+    <script src="static/department.js" async></script>
+</head>
+
+
+<body>
+    <header>
+        <div class="parent">
+            <div id="white-space"></div>
+            <div id="header">
+                <h1>Poet's Playlist</h1>
+                <div id="logo">
+                    <img id="bear" src="../static/images/logo.png" alt="logo" />
+                </div>
+            </div>
+    </header>
+    </head>
+
+    <body></body>
+    <div class="container">
+        <div class="search-box">
+            <input type="text" id="searchBox" placeholder="Enter a poem title">
+            <button onclick="search()">Search</button>
+        </div>
+        <div class="genres-container">
+            <h2>Genres:</h2>
+            <div class="genres">
+                <label for="popCheckbox"><input type="checkbox" id="popCheckbox" value="pop"> Pop</label>
+                <label for="rockCheckbox"><input type="checkbox" id="rockCheckbox" value="rock"> Rock</label>
+                <label for="countryCheckbox"><input type="checkbox" id="countryCheckbox" value="country">
+                    Country</label>
+                <label for="jazzCheckbox"><input type="checkbox" id="jazzCheckbox" value="jazz"> Jazz</label>
+                <label for="indieCheckbox"><input type="checkbox" id="indieCheckbox" value="indie"> Indie</label>
+                <label for="alternativeCheckbox"><input type="checkbox" id="alternativeCheckbox" value="alternative">
+                    Alternative</label>
+                <label for="synthpopCheckbox"><input type="checkbox" id="synthpopCheckbox" value="synthpop">
+                    Synth-pop</label>
+                <label for="poprockCheckbox"><input type="checkbox" id="poprockCheckbox" value="poprock"> Pop
+                    Rock</label>
+                <label for="musicalsCheckbox"><input type="checkbox" id="musicalsCheckbox" value="musicals">
+                    Musicals</label>
+                <label for="acousticCheckbox"><input type="checkbox" id="acousticCheckbox" value="acoustic">
+                    Acoustic</label>
+            </div>
         </div>
     </div>
 
+
+
     <script>
+        function search() {
+            // Retrieve search query from the search box
+            const searchQuery = document.getElementById('searchBox').value;
 
-        function answerBoxTemplate(title,author,text){
-            return `<div class=''>
-                <h3 class='episode-title'>${title}</h3>
-                <p class='episode-desc'>${author}</p>
-                <p class='episode-rating'> ${text}</p>
-            </div>`
+            // Retrieve selected genres from checkboxes
+            const selectedGenres = [];
+            const checkboxes = document.querySelectorAll('input[type=checkbox]:checked');
+            checkboxes.forEach((checkbox) => {
+                selectedGenres.push(checkbox.value);
+            });
+
+            // Perform search based on the search query and selected genres
+            // You can implement your search logic here, such as making an AJAX request
+            console.log('Search Query:', searchQuery);
+            console.log('Selected Genres:', selectedGenres);
         }
-
-        function sendFocus(){
-            document.getElementById('filter-text-val').focus()
-        }
-
-        function filterText(){
-            document.getElementById("answer-box").innerHTML = ""
-            console.log(document.getElementById("filter-text-val").value)
-            fetch("/episodes?" + new URLSearchParams({ title: document.getElementById("filter-text-val").value }).toString())
-            .then((response) => response.json())
-            .then((data) => data.forEach(row => {
-                
-                let tempDiv = document.createElement("div")
-                tempDiv.innerHTML = answerBoxTemplate(row.Title,row.Author,row.text)
-                document.getElementById("answer-box").appendChild(tempDiv)
-            }));
-
-        }
-            
     </script>
 </body>
+
+</html>
