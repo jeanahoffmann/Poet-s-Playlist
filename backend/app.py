@@ -4,6 +4,7 @@ from flask import Flask, render_template, request
 from flask_cors import CORS
 from helpers.MySQLDatabaseHandler import MySQLDatabaseHandler
 import pandas as pd
+from cos_sim import whole_shebang # for getting the cosine similarity
 
 # ROOT_PATH for linking with all your files. 
 # Feel free to use a config.py or settings.py with a global export variable
@@ -34,10 +35,17 @@ def json_search(query):
     # matches_filtered_json = matches_filtered.to_json(orient='records')
 
     # Replace this with our search method
-    matches = data[data["Title"].str.lower().str.contains(query.lower())]
-    matches_filtered = matches[['Title', 'Author', 'text']]
-    matches_filtered_json = matches_filtered.to_json(orient='records')
-    return matches_filtered_json
+    # matches = data[data["Title"].str.lower().str.contains(query.lower())]
+    # matches_filtered = matches[['Title', 'Author', 'text']]
+    # matches_filtered_json = matches_filtered.to_json(orient='records')
+    # return matches_filtered_json
+    
+    # Assuming query is a string poem title that exists in the database...
+        # returns a sorted list of song indices (i.e. most_similar_songs[0] is the idx of the most similar song)
+        # OR returns an empty list if the poem title doesn't match a poem in the database
+    most_similar_songs = whole_shebang(query)
+    
+    
 
 @app.route("/")
 def home():
