@@ -44,6 +44,17 @@ def json_search(query):
         # returns a sorted list of song indices (i.e. most_similar_songs[0] is the idx of the most similar song)
         # OR returns an empty list if the poem title doesn't match a poem in the database
     most_similar_songs = whole_shebang(query)
+    top_indexes = most_similar_songs[:10]
+
+    with open('songs.json', 'r', encoding='utf-8') as f:
+        songs_data = json.load(f)
+
+    top_titles = [song['song_name'] for song in songs_data if song['song_id'] in top_indexes]
+    
+    # Copied from the old code above
+    matches_filtered_json = top_titles.to_json() # TODO: Is this the correct format?
+    return (matches_filtered_json)
+    
     
     
 
