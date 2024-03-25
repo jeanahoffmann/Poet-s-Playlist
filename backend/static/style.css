@@ -53,8 +53,8 @@
 }
 
 .input-box{
-    border-radius: 50px;
-    border:1px solid black;
+    /* border-radius: 50px;
+    border:1px solid black; */
     display: flex;
     align-items: center;
     margin-top: 10px;

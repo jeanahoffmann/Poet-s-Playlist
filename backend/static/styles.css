@@ -37,24 +37,51 @@ body {
 }
 
 .container {
+  position: absolute;
+  top: 150px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-direction: column;
   text-align: center;
   margin-top: 20px;
   /* Adjust margin as needed */
 }
 
-.search-box {
-  margin-bottom: 10px;
-  margin-top: 5px;
+.input-box {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  padding: 12px;
+  width: 600px;
+  /* margin-bottom: 10px;
+  margin-top: 5px; */
   /* Adjust margin as needed */
 }
 
-.search-box input[type="text"] {
+.input-box input[type="text"] {
   width: 200px;
   /* Adjust width as needed */
   padding: 10px;
   /* Adjust padding as needed */
   font-size: 16px;
   /* Adjust font size as needed */
+
+}
+
+#filter-text-val{
+  /* background-color: rgb(255, 236, 239); */
+  height: 45px;
+  padding-left: 30px;
+  padding-right: 30px;
+  font-family: 'Didot', serif;
+  font-size: large;
+  border: 3px rgb(178, 113, 137) solid;
 }
 
 .search-box button {
