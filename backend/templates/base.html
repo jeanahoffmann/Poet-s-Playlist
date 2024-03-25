@@ -34,10 +34,16 @@
 
     <!-- <body></body> -->
     <div class="container">
-        <div class="search-box">
+
+        <!-- Probably need to modify this?? -->
+        <div class = "input-box" onclick = "sendFocus()">
+            <input types = "text" placeholder= "Enter a poem title" id = "filter-text-val" onkeyup = "filterText()">
+            <!-- <button onclick = "search"()>Search</button> -->
+        </div>
+        <!-- <div class="search-box">
             <input type="text" id="searchBox" placeholder="Enter a poem title">
             <button onclick="search()">Search</button>
-        </div>
+        </div> -->
         <div class="genres-container">
             <h2>Genres:</h2>
             <div class="genres">
@@ -58,6 +64,9 @@
                 <label for="acousticCheckbox"><input type="checkbox" id="acousticCheckbox" value="acoustic">
                     Acoustic</label>
             </div>
+        </div>
+        <div id = "answer-box">
+
         </div>
     </div>
 
