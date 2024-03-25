@@ -46,10 +46,15 @@ def json_search(query):
     most_similar_songs = whole_shebang(query)
     top_indexes = most_similar_songs[:10]
 
-    with open('songs.json', 'r', encoding='utf-8') as f:
+    with open('init.json', 'r', encoding='utf-8') as f: # CHANGE: Changed the json file the code reads
         songs_data = json.load(f)
+        df = pd.DataFrame(songs_data) # CHANGE: Converted to DataFrame
 
-    top_titles = [song['song_name'] for song in songs_data if song['song_id'] in top_indexes]
+    songs_df = pd.DataFrame(df['songs'][0]) # CHANGE
+    top_songs = songs_df[songs_df['song_id'].isin(top_indexes)] # CHANGE: songs_df['song_id'] in top_indexes not worked
+    top_titles = top_songs[['song_name']] # CHANGE
+
+    # top_titles = [song['song_name'] for song in songs_data if song['song_id'] in top_indexes]
     
     # Copied from the old code above
     matches_filtered_json = top_titles.to_json() # TODO: Is this the correct format?
@@ -64,7 +69,7 @@ def home():
 
 @app.route("/episodes")
 def episodes_search():
-    text = request.args.get("title")
+    text = request.args.get("song_name") # CHANGE: Modified "title" --> "song_name"
     return json_search(text)
 
 if 'DB_NAME' not in os.environ:

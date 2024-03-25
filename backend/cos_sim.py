@@ -15,7 +15,7 @@ def tokenize(text): # (string)
 
 def get_poem_idx(poem_name, poem_dataset):
   for poem_idx in range(len(poem_dataset)):
-    if poem_dataset[poem_idx]['name'] == poem_name:
+    if poem_dataset[poem_idx]['Title'] == poem_name: # CHANGE: 'name' --> 'Title' to match the dataset
       return (poem_idx)
   return (-1)
 
@@ -56,8 +56,8 @@ def whole_shebang(poem_name):
     songs_and_poems = json.load(f)
   
   # Clean up data
-  poem_dataset = songs_and_poems['poems']
-  songs_dataset = songs_and_poems['songs']
+  poem_dataset = songs_and_poems[0]['poems'] # CHANGE: Updated init_json is a list of one list with two components (poem, songs)
+  songs_dataset = songs_and_poems[0]['songs'] # CHANGE: Modified to match the updated init_json file
   song_magnitudes = {index: song['magnitude'] for index, song in enumerate(songs_dataset)}
   
   # Get poem index

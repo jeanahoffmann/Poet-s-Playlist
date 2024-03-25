@@ -12,8 +12,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Kanit&family=Montserrat&family=Open+Sans:wght@500&display=swap"
         rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-    <script src="static/script.js" async></script>
-    <script src="static/department.js" async></script>
+    <!-- CHANGE: javascript files are deleted -->
+    <!-- <script src="static/script.js" async></script> 
+    <script src="static/department.js" async></script> -->
 </head>
 
 
@@ -28,9 +29,10 @@
                 </div>
             </div>
     </header>
-    </head>
+    <!-- CHANGE: </head> and <body></body> below is not needed? -->
+    <!-- </head> -->
 
-    <body></body>
+    <!-- <body></body> -->
     <div class="container">
         <div class="search-box">
             <input type="text" id="searchBox" placeholder="Enter a poem title">
@@ -77,6 +79,34 @@
             // You can implement your search logic here, such as making an AJAX request
             console.log('Search Query:', searchQuery);
             console.log('Selected Genres:', selectedGenres);
+        }
+
+        // CHANGE: Added the deleted functions back (modified a bit)
+
+        function answerBoxTemplate(song_name){ // CHANGE: We want song_names instead of other features & Deleted unused features.
+            return `<div class=''>
+                <h3 class='episode-title'>${song_name}</h3> 
+                
+            </div>`
+        }
+
+        function sendFocus(){
+            document.getElementById('filter-text-val').focus()
+        }
+
+        function filterText(){
+            document.getElementById("answer-box").innerHTML = ""
+            console.log(document.getElementById("filter-text-val").value)
+            // CHANGE: Replaced URLSearchParams parameter to song_name 
+            fetch("/episodes?" + new URLSearchParams({ song_name: document.getElementById("filter-text-val").value }).toString())
+            .then((response) => response.json())
+            .then((data) => data.forEach(row => {
+                
+                let tempDiv = document.createElement("div")
+                tempDiv.innerHTML = answerBoxTemplate(row.song_name) // CHANGE: Replaced row
+                document.getElementById("answer-box").appendChild(tempDiv)
+            }));
+
         }
     </script>
 </body>
