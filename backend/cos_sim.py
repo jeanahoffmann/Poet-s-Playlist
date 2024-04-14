@@ -81,7 +81,7 @@ def whole_shebang(query): # 4/14 - Treating query as a list of poem names
   
   # Get the indices and corresponding word counts:
   poem_indices = get_poem_indices(query, poem_dataset)
-  word_counts = get_all_word_counts(poem_indices)
+  word_counts = get_all_word_counts(poem_indices, poem_dataset)
   
   # Perform the Rocchio
   rocchio_word_counts = calc_rocchio(word_counts)
