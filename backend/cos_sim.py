@@ -19,18 +19,7 @@ def get_poem_idx(poem_name, poem_dataset):
       return (poem_idx)
   return (-1)
 
-def get_poem_word_counts(poem): # takes a list of tokens, returns a dict with word counts
-  counts = defaultdict(list)
-
-  for token in poem:
-    if token in counts:
-      counts[token] += 1
-    else:
-      counts[token] = 1
-
-  return (counts)
-
-def dot_for_one_poem(poem_word_counts: dict, inverted_index: dict, idf: dict) -> dict: # poem_word_counts is a dict with [token, num_times_appeared]
+def get_dot(poem_word_counts: dict, inverted_index: dict, idf: dict) -> dict: # poem_word_counts is a dict with [token, num_times_appeared]
   doc_scores = {}
 
   for term in poem_word_counts:
@@ -42,39 +31,62 @@ def dot_for_one_poem(poem_word_counts: dict, inverted_index: dict, idf: dict) ->
   return (doc_scores)
 
 def calc_cos_sim(poem_word_counts: dict, inverted_index: dict, idf: dict, doc_magnitudes: dict) -> dict:
-  doc_scores = dot_for_one_poem(poem_word_counts, inverted_index, idf)
+  doc_scores = get_dot(poem_word_counts, inverted_index, idf)
   cosine_similarities = {}
 
   for document_num, score in doc_scores.items():
-      cosine_similarities[document_num] = score / (doc_magnitudes[document_num] * math.sqrt(sum(word_count**2 for word_count in poem_word_counts.values())))
+    cosine_similarities[document_num] = score / (doc_magnitudes[document_num] * math.sqrt(sum(word_count**2 for word_count in poem_word_counts.values())))
 
   return (cosine_similarities)
 
-def whole_shebang(poem_name):
-  # Load in data
+def load_data():
   with open('init.json') as f:
     songs_and_poems = json.load(f)
+  with open('datasets/idf.json') as f:
+    idf = json.load(f)
+  with open('datasets/inv_idx.json') as f:
+    inv_idx = json.load(f)
+    
+  return (songs_and_poems, idf, inv_idx)
+
+def get_poem_indices(query, poem_dataset):
+  poem_list = []
+  
+  for poem in query:
+    poem_idx = get_poem_idx(poem, poem_dataset)
+    if poem_idx != 0:
+      poem_list.append(poem_idx)
+  
+def get_all_word_counts(poem_indices, poem_dataset):
+  # Initialize an empty dictionary to store the sum of values
+  total_counts = {}
+  for poem_idx in poem_indices:
+    individual_counts = poem_dataset[poem_idx]['word_counts']
+    for key, value in individual_counts.items():
+      total_counts[key] = total_counts.get(key, 0) + value
+  return (total_counts)
+
+def calc_rocchio(word_counts): # TODO: Implement Rocchio here
+  # word_counts is a dict with [token, num_times_appeared]
+  return (word_counts) # for now, just return word_counts as-is
+
+def whole_shebang(query): # 4/14 - Treating query as a list of poem names
+  # Load in data
+  songs_and_poems, idf, inv_idx = load_data()
   
   # Clean up data
   poem_dataset = songs_and_poems[0]['poems'] # CHANGE: Updated init_json is a list of one list with two components (poem, songs)
   songs_dataset = songs_and_poems[0]['songs'] # CHANGE: Modified to match the updated init_json file
   song_magnitudes = {index: song['magnitude'] for index, song in enumerate(songs_dataset)}
   
-  # Get poem index
-  poem_idx = get_poem_idx(poem_name, poem_dataset)
+  # Get the indices and corresponding word counts:
+  poem_indices = get_poem_indices(query, poem_dataset)
+  word_counts = get_all_word_counts(poem_indices)
   
-  # Return empty list if the poem is invalid
-  if poem_idx == -1:
-    return([]) # returns an empty list if the poem title doesn't match a poem in the database
-  
-  # Load other stuff (saves time to do it only after checking if the poem is valid)
-  with open('datasets/idf.json') as f:
-    idf = json.load(f)
-  with open('datasets/inv_idx.json') as f:
-    inv_idx = json.load(f)
+  # Perform the Rocchio
+  rocchio_word_counts = calc_rocchio(word_counts)
   
   # Perform the cosine similarity
-  word_counts = poem_dataset[poem_idx]['word_counts']
-  cos_sim = calc_cos_sim(word_counts, inv_idx, idf, song_magnitudes)
+  cos_sim = calc_cos_sim(rocchio_word_counts, inv_idx, idf, song_magnitudes)
   sorted_list_of_docs = sorted(cos_sim, key=lambda x: cos_sim[x], reverse=True) # greatest to least similarity
   return(sorted_list_of_docs)
