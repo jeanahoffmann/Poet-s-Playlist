@@ -43,8 +43,10 @@ def json_search(query):
     # Assuming query is a string poem title that exists in the database...
         # returns a sorted list of song indices (i.e. most_similar_songs[0] is the idx of the most similar song)
         # OR returns an empty list if the poem title doesn't match a poem in the database
-    
-    most_similar_songs = whole_shebang(query)
+    title_lst = query.split(';')
+    title_lst = [title.strip() for title in title_lst]
+
+    most_similar_songs = whole_shebang(title_lst)
     top_indexes = most_similar_songs[:10]
     # top_indexes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
