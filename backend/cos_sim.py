@@ -56,6 +56,8 @@ def get_poem_indices(query, poem_dataset):
     poem_idx = get_poem_idx(poem, poem_dataset)
     if poem_idx != 0:
       poem_list.append(poem_idx)
+      
+  return (poem_list)
   
 def get_all_word_counts(poem_indices, poem_dataset):
   # Initialize an empty dictionary to store the sum of values
