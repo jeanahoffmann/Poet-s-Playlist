@@ -9,9 +9,9 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from numpy import linalg as LA
 
 
-def load_data():
-  with open('init.json') as f:
-    songs_and_poems = json.load(f)
+
+with open('init.json') as f:
+  songs_and_poems = json.load(f)
 
 poem_dataset = songs_and_poems[0]['poems']
 
