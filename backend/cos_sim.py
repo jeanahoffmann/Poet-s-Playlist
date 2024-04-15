@@ -7,6 +7,8 @@ import json
 from collections import defaultdict
 from typing import List
 import math
+import rocchio
+from rocchio import calc_rocchio, top10_with_rocchio, irrelevant, relevant, doc_by_vocab
 
 # --- Functions ---
 def tokenize(text): # (string)
@@ -68,9 +70,12 @@ def get_all_word_counts(poem_indices, poem_dataset):
       total_counts[key] = total_counts.get(key, 0) + value
   return (total_counts)
 
-def calc_rocchio(word_counts): # TODO: Implement Rocchio here
-  # word_counts is a dict with [token, num_times_appeared]
-  return (word_counts) # for now, just return word_counts as-is
+### getting updated list of poems from rocchio
+poem_sim_with_rocchio = top10_with_rocchio(relevant, irrelevant, doc_by_vocab, rocchio.poem_title_to_index,\
+                                           rocchio.poem_index_to_title, calc_rocchio)
+new_query = np.array(list(poem_sim_with_rocchio.values()))
+new_query.flatten()
+query = new_query #list of poem names to be used in whole_shebang
 
 def whole_shebang(query): # 4/14 - Treating query as a list of poem names
   # Load in data
@@ -86,9 +91,9 @@ def whole_shebang(query): # 4/14 - Treating query as a list of poem names
   word_counts = get_all_word_counts(poem_indices, poem_dataset)
   
   # Perform the Rocchio
-  rocchio_word_counts = calc_rocchio(word_counts)
+  # rocchio_word_counts = calc_rocchio(word_counts)
   
   # Perform the cosine similarity
-  cos_sim = calc_cos_sim(rocchio_word_counts, inv_idx, idf, song_magnitudes)
+  cos_sim = calc_cos_sim(word_counts, inv_idx, idf, song_magnitudes)
   sorted_list_of_docs = sorted(cos_sim, key=lambda x: cos_sim[x], reverse=True) # greatest to least similarity
   return(sorted_list_of_docs)
