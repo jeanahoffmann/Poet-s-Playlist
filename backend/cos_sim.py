@@ -7,7 +7,7 @@ import json
 from collections import defaultdict
 from typing import List
 import math
-import rocchio
+# import rocchio
 # from rocchio import calc_rocchio, top10_with_rocchio, irrelevant, relevant, doc_by_vocab
 
 # --- Functions ---
