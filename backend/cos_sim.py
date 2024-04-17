@@ -8,7 +8,7 @@ from collections import defaultdict
 from typing import List
 import math
 import rocchio
-from rocchio import calc_rocchio, top10_with_rocchio, irrelevant, relevant, doc_by_vocab
+# from rocchio import calc_rocchio, top10_with_rocchio, irrelevant, relevant, doc_by_vocab
 
 # --- Functions ---
 def tokenize(text): # (string)
@@ -71,11 +71,11 @@ def get_all_word_counts(poem_indices, poem_dataset):
   return (total_counts)
 
 ### getting updated list of poems from rocchio
-poem_sim_with_rocchio = top10_with_rocchio(relevant, irrelevant, doc_by_vocab, rocchio.poem_title_to_index,\
-                                           rocchio.poem_index_to_title, calc_rocchio)
-new_query = np.array(list(poem_sim_with_rocchio.values()))
-new_query.flatten()
-query = new_query #list of poem names to be used in whole_shebang
+# poem_sim_with_rocchio = top10_with_rocchio(relevant, irrelevant, doc_by_vocab, rocchio.poem_title_to_index,\
+#                                            rocchio.poem_index_to_title, calc_rocchio)
+# new_query = np.array(list(poem_sim_with_rocchio.values()))
+# new_query.flatten()
+# query = new_query #list of poem names to be used in whole_shebang
 
 def whole_shebang(query): # 4/14 - Treating query as a list of poem names
   # Load in data
