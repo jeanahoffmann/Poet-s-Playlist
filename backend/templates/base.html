@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{% endblock %} - Flaskr</title>
+    <title>{% block title %}{% endblock %} Poet's Playlist</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="../static/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,16 +29,13 @@
                 </div>
             </div>
     </header>
-    <!-- CHANGE: </head> and <body></body> below is not needed? -->
-    <!-- </head> -->
 
-    <!-- <body></body> -->
     <div class="container">
 
-        <!-- Probably need to modify this?? -->
+        <!-- Add search button -->
         <div class = "input-box" onclick = "sendFocus()">
-            <input types = "text" placeholder= "Enter poem titles (separated by semicolons)" id = "filter-text-val" onkeyup = "filterText()">
-            <!-- <button onclick = "search"()>Search</button> -->
+            <input types = "text" placeholder= "Enter poem titles (separated by semicolons)" id = "filter-text-val">
+            <button onclick="filterText()">Search</button>
         </div>
         <!-- <div class="search-box">
             <input type="text" id="searchBox" placeholder="Enter a poem title">
@@ -75,7 +72,7 @@
     <script>
         function search() {
             // Retrieve search query from the search box
-            const searchQuery = document.getElementById('searchBox').value;
+            // const searchQuery = document.getElementById('searchBox').value;
 
             // Retrieve selected genres from checkboxes
             const selectedGenres = [];
@@ -86,8 +83,9 @@
 
             // Perform search based on the search query and selected genres
             // You can implement your search logic here, such as making an AJAX request
-            console.log('Search Query:', searchQuery);
+            // console.log('Search Query:', searchQuery);
             console.log('Selected Genres:', selectedGenres);
+            return selectedGenres;
         }
 
         // CHANGE: Added the deleted functions back (modified a bit)
@@ -107,7 +105,7 @@
             document.getElementById("answer-box").innerHTML = ""
             console.log(document.getElementById("filter-text-val").value)
             // CHANGE: Replaced URLSearchParams parameter to song_name 
-            fetch("/episodes?" + new URLSearchParams({ song_name: document.getElementById("filter-text-val").value }).toString())
+            fetch("/episodes?" + new URLSearchParams({ song_name: document.getElementById("filter-text-val").value, genre: search() }).toString())
             .then((response) => response.json())
             .then((data) => data.forEach(row => {
                 

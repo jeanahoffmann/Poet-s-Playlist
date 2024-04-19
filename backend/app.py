@@ -20,14 +20,12 @@ json_file_path = os.path.join(current_directory, 'init.json')
 with open(json_file_path, 'r') as file:
     d = json.load(file)
     data = pd.DataFrame.from_dict(d)
-    # episodes_df = pd.DataFrame(data['episodes'])
-    # reviews_df = pd.DataFrame(data['reviews'])
 
 app = Flask(__name__)
 CORS(app)
 
 # Sample search using json with pandas
-def json_search(query):
+def json_search(query, genre):
     matches = []
     # merged_df = pd.merge(episodes_df, reviews_df, left_on='id', right_on='id', how='inner')
     # matches = merged_df[merged_df['title'].str.lower().str.contains(query.lower())]
@@ -48,15 +46,14 @@ def json_search(query):
 
     most_similar_songs = whole_shebang(title_lst)
     top_indexes = most_similar_songs[:10]
-    # top_indexes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
-    with open('init.json', 'r', encoding='utf-8') as f: # CHANGE: Changed the json file the code reads
+    with open('init.json', 'r', encoding='utf-8') as f:
         songs_data = json.load(f)
-        df = pd.DataFrame(songs_data) # CHANGE: Converted to DataFrame
+        df = pd.DataFrame(songs_data)
 
-    songs_df = pd.DataFrame(df['songs'][0]) # CHANGE
-    top_songs = songs_df[songs_df['song_id'].isin(top_indexes)] # CHANGE: songs_df['song_id'] in top_indexes not worked
-    top_titles = top_songs[['song_name']] # CHANGE
+    songs_df = pd.DataFrame(df['songs'][0])
+    top_songs = songs_df[songs_df['song_id'].isin(top_indexes)]
+    top_titles = top_songs[['song_name']]
 
     # top_titles = [song['song_name'] for song in songs_data if song['song_id'] in top_indexes]
     
@@ -73,8 +70,9 @@ def home():
 
 @app.route("/episodes")
 def episodes_search():
-    text = request.args.get("song_name") # CHANGE: Modified "title" --> "song_name"
-    return json_search(text)
+    text = request.args.get("song_name")
+    genre = request.args.get("genre") # List of checked genre
+    return json_search(text, genre)
 
 if 'DB_NAME' not in os.environ:
     app.run(debug=True,host="0.0.0.0",port=5000)
