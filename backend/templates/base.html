@@ -65,11 +65,88 @@
         <div id = "answer-box">
 
         </div>
+        <!-- CHANGE: adding refresh and autocomplete-->
+                <div id="refresh-instructions">
+            <p>Please like or dislike the songs as you prefer, then click "Refresh" to see new recommendations based on
+                your feedback.</p>
+        </div>
+        <button onclick="refreshResults()">Refresh Results</button>
+        <p id="refresh-count">Refreshes left: 5</p>
     </div>
 
-
+    </div>   <!-- CHANGE: end of change in html -->
 
     <script>
+
+        //change in jscript
+        
+        $(function () {
+            $("#filter-text-val").autocomplete({
+                source: "/autocomplete",
+                minLength: 2  // Minimum length of query to trigger autocomplete
+            });
+        });
+
+        let refreshCount = 5;
+        let feedback = {};
+
+        function filterText() {
+            document.getElementById("answer-box").innerHTML = "";
+            fetch("/episodes?" + new URLSearchParams({
+                song_name: document.getElementById("filter-text-val").value,
+                genre: search()
+            }).toString())
+                .then((response) => response.json())
+                .then((data) => {
+                    data.forEach(song => {
+                        let tempDiv = document.createElement("div");
+                        tempDiv.innerHTML = answerBoxTemplate(song.song_name, song.song_id);
+                        document.getElementById("answer-box").appendChild(tempDiv);
+                    });
+                });
+        }
+
+        function answerBoxTemplate(song_name, song_id) {
+            return `<div class=''>
+                <h3 class='episode-title'>${song_name}</h3>
+                <button onclick="likeSong(${song_id})">Like</button>
+                <button onclick="dislikeSong(${song_id})">Dislike</button>
+            </div>`;
+        }
+
+        function likeSong(song_id) {
+            feedback[song_id] = 1;
+        }
+
+        function dislikeSong(song_id) {
+            feedback[song_id] = -1;
+        }
+
+        function refreshResults() {
+            if (refreshCount > 0) {
+                fetch("/update_recommendations", {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ feedback: feedback })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById("answer-box").innerHTML = "";
+                        data.forEach(song => {
+                            let tempDiv = document.createElement("div");
+                            tempDiv.innerHTML = answerBoxTemplate(song.song_name, song.song_id);
+                            document.getElementById("answer-box").appendChild(tempDiv);
+                        });
+                        refreshCount--;
+                        document.getElementById("refresh-count").innerText = `Refreshes left: ${refreshCount}`;
+                    });
+            } else {
+                alert("You have reached the maximum number of refreshes. Please start a new query.");
+            }
+        }
+
+        //end of change
+        
         function search() {
             // Retrieve search query from the search box
             // const searchQuery = document.getElementById('searchBox').value;
