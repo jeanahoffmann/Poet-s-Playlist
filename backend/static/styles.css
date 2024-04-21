@@ -53,6 +53,25 @@ body {
   /* Adjust margin as needed */
 }
 
+#refresh-instructions {
+  margin-top: 20px;
+  /* Space above the message */
+  margin-bottom: 10px;
+  /* Space below the message */
+  text-align: center;
+  /* Center-align the text */
+  font-size: 16px;
+  /* Appropriate text size */
+  color: #333;
+  /* Dark grey color for better readability */
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  /* Light background to highlight the area */
+  border: 1px solid #ccc;
+  /* Subtle border */
+}
+
 .input-box {
   display: flex;
   align-items: center;
