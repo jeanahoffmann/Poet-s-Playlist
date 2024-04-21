@@ -16,7 +16,7 @@ current_directory = os.path.dirname(os.path.abspath(__file__))
 # Specify the path to the JSON file relative to the current script
 json_file_path = os.path.join(current_directory, 'init.json')
 
-# Assuming your JSON data is stored in a file named 'init.json'
+#dropdown code starts here
 with open(json_file_path, 'r') as file:
     d = json.load(file)
     data = pd.DataFrame.from_dict(d)
@@ -24,6 +24,28 @@ with open(json_file_path, 'r') as file:
 app = Flask(__name__)
 CORS(app)
 
+with open('init.json', 'r') as file:
+    poems_json = json.load(file)
+    poems = poems_json[0]['poems']  # Adjust depending on your JSON structure
+    poem_titles = [poem['Title'] for poem in poems]
+
+@app.route("/autocomplete", methods=["GET"])
+def autocomplete():
+    search = request.args.get('term', '')  # 'term' is what jQuery UI expects
+    matches = [title for title in poem_titles if search.lower() in title.lower()]
+    return jsonify(matches)
+
+@app.route("/")
+def home():
+    return render_template('base.html', title="Poet's Playlist")
+
+@app.route("/episodes")
+def episodes_search():
+    text = request.args.get("song_name")
+    genre = request.args.get("genre")
+    return json_search(text, genre)
+#dropdown code ends here
+    
 # Sample search using json with pandas
 def json_search(query, genre):
     matches = []
