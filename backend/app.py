@@ -35,9 +35,10 @@ def autocomplete():
     matches = [title for title in poem_titles if search.lower() in title.lower()]
     return jsonify(matches)
 
-@app.route("/")
-def home():
-    return render_template('base.html', title="Poet's Playlist")
+#commenting out home
+#@app.route("/")
+#def home():
+# return render_template('base.html', title="Poet's Playlist")
 
 @app.route("/episodes")
 def episodes_search():
