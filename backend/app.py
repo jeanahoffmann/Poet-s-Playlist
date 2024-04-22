@@ -91,11 +91,12 @@ def json_search(query, genre):
 def home():
     return render_template('base.html',title="sample html")
 
-@app.route("/episodes")
-def episodes_search():
-    text = request.args.get("song_name")
-    genre = request.args.get("genre") # List of checked genre
-    return json_search(text, genre)
+#commenting out the second episodes_search
+#@app.route("/episodes")
+#def episodes_search():
+#    text = request.args.get("song_name")
+#    genre = request.args.get("genre") # List of checked genre
+#   return json_search(text, genre)
 
 if 'DB_NAME' not in os.environ:
     app.run(debug=True,host="0.0.0.0",port=5000)
