@@ -7,6 +7,7 @@
     <title>{% block title %}{% endblock %} Poet's Playlist</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="../static/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit&family=Montserrat&family=Open+Sans:wght@500&display=swap"
@@ -62,8 +63,11 @@
                     Acoustic</label>
             </div>
         </div>
+        <div id = 'loading' style = 'display: none;'>
+            <div class = "loader"></div>
+        </div>
         <div id = "answer-box">
-
+            
         </div>
         <!-- CHANGE: adding refresh and autocomplete-->
                 <div id="refresh-instructions">
@@ -91,6 +95,8 @@
         let feedback = {};
 
         function filterText() {
+            document.getElementById('loading').style.display = 'block';
+            console.log("Filtering Text");
             document.getElementById("answer-box").innerHTML = "";
             fetch("/episodes?" + new URLSearchParams({
                 song_name: document.getElementById("filter-text-val").value,
@@ -100,17 +106,21 @@
                 .then((data) => {
                     data.forEach(song => {
                         let tempDiv = document.createElement("div");
-                        tempDiv.innerHTML = answerBoxTemplate(song.song_name, song.song_id);
+                        tempDiv.innerHTML = answerBoxTemplate(song.song_name, song.song_id, song.artist);
                         document.getElementById("answer-box").appendChild(tempDiv);
                     });
                 });
+            // document.getElementById('loading').style.display = 'none';
         }
 
-        function answerBoxTemplate(song_name, song_id) {
-            return `<div class=''>
+        function answerBoxTemplate(song_name, song_id, song_artist) {
+            document.getElementById('loading').style.display = 'none';
+            return `<div class='song-player'>
                 <h3 class='episode-title'>${song_name}</h3>
+                <p class='episode-title'>${song_artist}</p>
                 <button onclick="likeSong(${song_id})">Like</button>
                 <button onclick="dislikeSong(${song_id})">Dislike</button>
+
             </div>`;
         }
 
@@ -167,31 +177,31 @@
 
         // CHANGE: Added the deleted functions back (modified a bit)
 
-        function answerBoxTemplate(song_name){ // CHANGE: We want song_names instead of other features & Deleted unused features.
-            return `<div class=''>
-                <h3 class='episode-title'>${song_name}</h3> 
+        // function answerBoxTemplate(song_name){ // CHANGE: We want song_names instead of other features & Deleted unused features.
+        //     return `<div class=''>
+        //         <h3 class='episode-title'>${song_name}</h3> 
                 
-            </div>`
-        }
+        //     </div>`
+        // }
 
         function sendFocus(){
             document.getElementById('filter-text-val').focus()
         }
 
-        function filterText(){
-            document.getElementById("answer-box").innerHTML = ""
-            console.log(document.getElementById("filter-text-val").value)
-            // CHANGE: Replaced URLSearchParams parameter to song_name 
-            fetch("/episodes?" + new URLSearchParams({ song_name: document.getElementById("filter-text-val").value, genre: search() }).toString())
-            .then((response) => response.json())
-            .then((data) => data.forEach(row => {
+        // function filterText(){
+        //     document.getElementById("answer-box").innerHTML = ""
+        //     console.log(document.getElementById("filter-text-val").value)
+        //     // CHANGE: Replaced URLSearchParams parameter to song_name 
+        //     fetch("/episodes?" + new URLSearchParams({ song_name: document.getElementById("filter-text-val").value, genre: search() }).toString())
+        //     .then((response) => response.json())
+        //     .then((data) => data.forEach(row => {
                 
-                let tempDiv = document.createElement("div")
-                tempDiv.innerHTML = answerBoxTemplate(row.song_name) // CHANGE: Replaced row
-                document.getElementById("answer-box").appendChild(tempDiv)
-            }));
+        //         let tempDiv = document.createElement("div")
+        //         tempDiv.innerHTML = answerBoxTemplate(row.song_name) // CHANGE: Replaced row
+        //         document.getElementById("answer-box").appendChild(tempDiv)
+        //     }));
 
-        }
+        // }
     </script>
 </body>
 
