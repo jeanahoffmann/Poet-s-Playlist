@@ -34,10 +34,60 @@
     <div class="container">
 
         <!-- Add search button -->
-        <div class = "input-box" onclick = "sendFocus()">
-            <input types = "text" placeholder= "Enter poem titles (separated by semicolons)" id = "filter-text-val">
+        <div class="input-box" onclick="sendFocus()">
+            <input type="text" placeholder="Enter poem titles (separated by semicolons)" id="filter-text-val" oninput="dropdownCode()">
             <button onclick="filterText()">Search</button>
         </div>
+
+
+        <div class="dropdown-box">
+            <select id="titleDropdown" size="10" style="display:none;" onclick="selectTitle()"></select>
+        </div>
+        
+        <script>
+            function dropdownCode() {
+                document.getElementById('titleDropdown').innerHTML = ''; // Start with empty dropdown box
+
+                const input = document.getElementById('filter-text-val').value.toLowerCase(); // get a lowercase version of the query
+                
+                const titles = [ // Placeholder --> Should be replaced with an actual list of titles (read in from elsewhere...?)
+                    "Title 1",
+                    "Title 2",
+                    "Title 3"
+                ];
+                
+                if (input.length > 0) {
+                    titles.forEach(title => { // For each title in the list
+                        if (title.toLowerCase().includes(input.toLowerCase())) { // If the title text contains the current query
+                            const option = document.createElement('option');
+                            option.value = title;
+                            option.textContent = title;
+                            document.getElementById('titleDropdown').appendChild(option); // Add that title to the list of options
+                        }
+                    });
+                } else {
+                    document.getElementById('titleDropdown').innerHTML = '';
+                }
+
+                if (document.getElementById('titleDropdown').options.length > 0) { // Hide the dropdown thingy if there's nothing inside
+                    document.getElementById('titleDropdown').style.display = 'block';
+                } else {
+                    document.getElementById('titleDropdown').style.display = 'none';
+                }
+            }
+        
+            function filterText() {
+                const selectedTitle = document.getElementById('titleDropdown').value;
+                document.getElementById('filter-text-val').value = selectedTitle;
+            }
+
+            function selectTitle() {
+                const selectedTitle = document.getElementById('titleDropdown').value;
+                document.getElementById('filter-text-val').value = selectedTitle;
+                document.getElementById('titleDropdown').innerHTML = '';
+                document.getElementById('titleDropdown').style.display = 'none';
+            }
+        </script>
         <!-- <div class="search-box">
             <input type="text" id="searchBox" placeholder="Enter a poem title">
             <button onclick="search()">Search</button>

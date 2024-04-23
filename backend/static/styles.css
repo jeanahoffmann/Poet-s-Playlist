@@ -84,13 +84,12 @@ body {
 }
 
 .input-box input[type="text"] {
-  width: 200px;
+  width: 500px;
   /* Adjust width as needed */
   padding: 10px;
   /* Adjust padding as needed */
   font-size: 16px;
   /* Adjust font size as needed */
-
 }
 
 #filter-text-val{
