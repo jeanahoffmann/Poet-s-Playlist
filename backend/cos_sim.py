@@ -60,6 +60,9 @@ def get_poem_indices(query, poem_dataset):
       
   return (poem_list)
   
+ 
+
+
 def get_all_word_counts(poem_indices, poem_dataset):
   # Initialize an empty dictionary to store the sum of values
   total_counts = {}
@@ -82,57 +85,67 @@ def whole_shebang(query): # 4/14 - Treating query as a list of poem names
   poem_indices = get_poem_indices(query, poem_dataset)
   word_counts = get_all_word_counts(poem_indices, poem_dataset)
   
-  # Perform the Rocchio
-  # rocchio_word_counts = calc_rocchio(word_counts)
-  new_query = rocchio_update(poem_dataset)
+  # # Perform the Rocchio
+  # # rocchio_word_counts = calc_rocchio(word_counts)
+  # new_query = rocchio_update(poem_dataset)
   
   # Perform the cosine similarity
   cos_sim = calc_cos_sim(word_counts, inv_idx, idf, song_magnitudes)
   sorted_list_of_docs = sorted(cos_sim, key=lambda x: cos_sim[x], reverse=True) # greatest to least similarity
   return(sorted_list_of_docs)
 
-def rocchio_update(poem_dataset):
-  irrelevant = [('An English Ballad, On The Taking Of Namur, By The King Of Great Britain', ['The Frightened Lion',
- 'Mail Drop',
- 'How To Make A Man Of Consequence',
- 'An Alphabet Of Old Friends',
- 'Pastime.',
- 'To E. G., Dedicating A Book',
- 'Echoes.',
- 'Doubting',
- 'Song Of The Redwood-Tree',
- 'A Book For The King']),
-               ('When Love, Who Ruled.',  ['The Frightened Lion',
- 'Mail Drop',
- 'How To Make A Man Of Consequence',
- 'An Alphabet Of Old Friends',
- 'Pastime.',
- 'To E. G., Dedicating A Book',
- 'Echoes.',
- 'Doubting',
- 'Song Of The Redwood-Tree',
- 'A Book For The King']),
-               ('Harvest Home', ['The Frightened Lion',
- 'Mail Drop',
- 'How To Make A Man Of Consequence',
- 'An Alphabet Of Old Friends',
- 'Pastime.',
- 'To E. G., Dedicating A Book',
- 'Echoes.',
- 'Doubting',
- 'Song Of The Redwood-Tree',
- 'A Book For The King']),]
 
 
-  relevant = [('An English Ballad, On The Taking Of Namur, By The King Of Great Britain', \
-  ['An English Ballad, On The Taking Of Namur, By The King Of Great Britain','When Love, Who Ruled.','Harvest Home']),
-               ('When Love, Who Ruled.',  ['An English Ballad, On The Taking Of Namur, By The King Of Great Britain',
- 'When Love, Who Ruled.',
- 'Harvest Home']),
-               ('Harvest Home', ['An English Ballad, On The Taking Of Namur, By The King Of Great Britain',
- 'When Love, Who Ruled.',
- 'Harvest Home']),]
-  poem_sim_with_rocchio = rocchio.top10_with_rocchio(relevant, irrelevant, poem_dataset)
+def rocchio_update(song_dataset, relevant, irrelevant):
+#   irrelevant = [('An English Ballad, On The Taking Of Namur, By The King Of Great Britain', ['The Frightened Lion',
+#  'Mail Drop',
+#  'How To Make A Man Of Consequence',
+#  'An Alphabet Of Old Friends',
+#  'Pastime.',
+#  'To E. G., Dedicating A Book',
+#  'Echoes.',
+#  'Doubting',
+#  'Song Of The Redwood-Tree',
+#  'A Book For The King']),
+#                ('When Love, Who Ruled.',  ['The Frightened Lion',
+#  'Mail Drop',
+#  'How To Make A Man Of Consequence',
+#  'An Alphabet Of Old Friends',
+#  'Pastime.',
+#  'To E. G., Dedicating A Book',
+#  'Echoes.',
+#  'Doubting',
+#  'Song Of The Redwood-Tree',
+#  'A Book For The King']),
+#                ('Harvest Home', ['The Frightened Lion',
+#  'Mail Drop',
+#  'How To Make A Man Of Consequence',
+#  'An Alphabet Of Old Friends',
+#  'Pastime.',
+#  'To E. G., Dedicating A Book',
+#  'Echoes.',
+#  'Doubting',
+#  'Song Of The Redwood-Tree',
+#  'A Book For The King']),]
+
+
+#   relevant = [('An English Ballad, On The Taking Of Namur, By The King Of Great Britain', \
+#   ['An English Ballad, On The Taking Of Namur, By The King Of Great Britain','When Love, Who Ruled.','Harvest Home']),
+#                ('When Love, Who Ruled.',  ['An English Ballad, On The Taking Of Namur, By The King Of Great Britain',
+#  'When Love, Who Ruled.',
+#  'Harvest Home']),
+#                ('Harvest Home', ['An English Ballad, On The Taking Of Namur, By The King Of Great Britain',
+#  'When Love, Who Ruled.',
+#  'Harvest Home']),]
+  
+  poems_and_songs,_, _ = load_data()
+  song_dataset = poems_and_songs[0]['songs']
+
+  poem_sim_with_rocchio = rocchio.top10_with_rocchio(relevant, irrelevant, song_dataset)
   new_query = np.array(list(poem_sim_with_rocchio.values()))
   new_query.flatten()
   return new_query
+
+
+
+
