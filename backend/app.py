@@ -33,7 +33,7 @@ with open('init.json', 'r') as file:
 def autocomplete():
     search = request.args.get('term', '')  # 'term' is what jQuery UI expects
     matches = [title for title in poem_titles if search.lower() in title.lower()]
-    return jsonify(matches)
+    return json.jsonify(matches)
 
 #commenting out home
 #@app.route("/")
