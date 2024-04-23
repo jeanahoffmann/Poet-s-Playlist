@@ -84,7 +84,15 @@ def json_search(query, genre):
     matches_filtered_json = top_titles.to_json(orient='records') # TODO: Is this the correct format?
     return (matches_filtered_json)
     
-    
+#calling rocchio from here
+@app.route("/update_recommendations", methods=["POST"])
+def update_recommendations():
+    feedback = request.get_json()
+    relevant = feedback['relevant']
+    irrelevant = feedback['irrelevant']
+    updated_results = top10_with_rocchio(relevant, irrelevant, poems)
+    return jsonify(updated_results)
+#change ends here    
     
 
 @app.route("/")
