@@ -153,3 +153,40 @@ body {
   0% {transform: rotate(0deg);}
   100% {transform: rotate(360deg);}
 }
+
+/* Additional styles for buttons */
+.button-like {
+    background-color: #ff6b81; /* Light pink because pink! */
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.button-dislike {
+    background-color: #606060; /* Light grey */
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.button-like.active, .button-like:hover {
+    background-color: #c80032; /* Dark pink because more pink! */
+}
+
+.button-dislike.active, .button-dislike:hover {
+    background-color: #333333; /* Dark grey */
+}
