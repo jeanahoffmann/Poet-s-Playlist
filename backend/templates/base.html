@@ -174,12 +174,33 @@
             </div>`;
         }
 
+        
         function likeSong(song_id) {
-            feedback[song_id] = 1;
+            var likeButton = document.getElementById('like-' + song_id);
+            var dislikeButton = document.getElementById('dislike-' + song_id);
+            
+            likeButton.classList.toggle('active');
+            dislikeButton.classList.remove('active');
+            
+            if (likeButton.classList.contains('active')) {
+                feedback[song_id] = 1;
+            } else {
+                delete feedback[song_id];
+            }
         }
 
         function dislikeSong(song_id) {
-            feedback[song_id] = -1;
+            var likeButton = document.getElementById('like-' + song_id);
+            var dislikeButton = document.getElementById('dislike-' + song_id);
+            
+            dislikeButton.classList.toggle('active');
+            likeButton.classList.remove('active');
+            
+            if (dislikeButton.classList.contains('active')) {
+                feedback[song_id] = -1;
+            } else {
+                delete feedback[song_id];
+            }
         }
 
         function refreshResults() {
