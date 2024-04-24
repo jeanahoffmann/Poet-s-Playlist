@@ -52,7 +52,7 @@
 
         <script>
             // var poemTitles = [];
-            // fetch('../datasets/titles.json')
+            // fetch('../datasets/titles.json') // 404: file not found? --> I've removed the file for now
             // .then(response => response.json())
             // .then(data => {
             //     console.log('Fetched JSON data:', data);
@@ -68,8 +68,9 @@
                 const input = document.getElementById('filter-text-val').value.toLowerCase(); // get a lowercase version of the query
                 
                 if (input.length > 0) {
+                    const lastInput = input.split(';').pop().trim();
                     titlesList.forEach(title => { // For each title in the list
-                        if (title.toLowerCase().includes(input.toLowerCase())) { // If the title text contains the current query
+                        if (title.toLowerCase().includes(lastInput.toLowerCase())) { // If the title text contains the current query
                             const option = document.createElement('option');
                             option.value = title;
                             option.textContent = title;
@@ -94,9 +95,18 @@
 
             function selectTitle() {
                 const selectedTitle = document.getElementById('titleDropdown').value;
-                document.getElementById('filter-text-val').value = selectedTitle;
+                const currentQuery = document.getElementById('filter-text-val').value;
+                
+                const parts = currentQuery.split(';'); // split the query to get each title
+                parts.pop(); // remove last partially-written title
+                parts.push(selectedTitle.trim()); // add selected title to the end
+                const newFilterText = parts.join('; ') + '; '; // recombine into a string
+                
+                document.getElementById('filter-text-val').value = newFilterText;
                 document.getElementById('titleDropdown').innerHTML = '';
                 document.getElementById('titleDropdown').style.display = 'none';
+
+                document.getElementById('filter-text-val').focus() // send the focus back to the text box
             }
         </script>
         <!-- <div class="search-box">
