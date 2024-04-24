@@ -196,10 +196,3 @@ a.player{
   color: black;
   text-decoration: none;
 }
-
-/*dropdown styling*/
-.dropdown-box {
-    position: relative;
-    width: 600px; /* Match input width */
-    margin: auto;
-}
