@@ -200,13 +200,13 @@ a.player{
 /*dropdown styling*/
 .dropdown-box {
     position: relative;
-    width: 500px; /* Match input width */
+    width: 300px; /* Match input width */
     margin: 10px auto;
 }
 
 #dropdown stylin
 #titleDropdown {
-    width: calc(100% - 24px);
+    width: 300px;
     padding: 10px;
     border: 2px solid rgb(178, 113, 137); 
     border-radius: 5px;
