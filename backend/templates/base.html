@@ -169,20 +169,21 @@
                 .then((data) => {
                     data.forEach(song => {
                         let tempDiv = document.createElement("div");
-                        tempDiv.innerHTML = answerBoxTemplate(song.song_name, song.song_id, song.artist, song.genre);
+                        tempDiv.innerHTML = answerBoxTemplate(song.song_name, song.song_id, song.artist, song.genre, song.src);
                         document.getElementById("answer-box").appendChild(tempDiv);
                     });
                 });
             // document.getElementById('loading').style.display = 'none';
         }
 
-        function answerBoxTemplate(song_name, song_id, song_artist, song_genre) {
+        function answerBoxTemplate(song_name, song_id, song_artist, song_genre, song_link) {
             document.getElementById('loading').style.display = 'none';
             return `<div class='song-player'>
                 <h3 class='episode-title'>${song_name}</h3>
                 <p class='episode-title'>${song_artist}</p>
                 <p class = 'episode-title'>${song_genre}</p>
                 <button onclick="likeSong(${song_id})">Like</button>
+                <a href = ${song_link} target = "_blank" class = "player"><i class="fas fa-play"></i></a>
                 <button onclick="dislikeSong(${song_id})">Dislike</button>
 
             </div>`;

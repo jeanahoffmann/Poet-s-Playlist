@@ -190,3 +190,9 @@ body {
 .button-dislike.active, .button-dislike:hover {
     background-color: #333333; /* Dark grey */
 }
+
+a.player{
+  padding: 2px;
+  color: black;
+  text-decoration: none;
+}

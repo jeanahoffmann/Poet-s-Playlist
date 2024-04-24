@@ -77,7 +77,7 @@ def json_search(query, genre):
 
     songs_df = pd.DataFrame(df['songs'][0])
     top_songs = songs_df[songs_df['song_id'].isin(top_indexes)]
-    top_titles = top_songs[['song_name', 'artist', 'genre']]
+    top_titles = top_songs[['song_name', 'artist', 'genre', 'src']]
 
     # top_titles = [song['song_name'] for song in songs_data if song['song_id'] in top_indexes]
     
