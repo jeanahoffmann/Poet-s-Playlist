@@ -200,7 +200,7 @@ a.player{
 /*dropdown styling*/
 .dropdown-box {
     position: relative;
-    width: 600px; /* Match input width */
+    width: 500px; /* Match input width */
     margin: 10px auto;
 }
 
@@ -218,7 +218,7 @@ a.player{
     position: absolute;
     z-index: 999; 
     max-height: 200px;
-    overflow-y: auto; 
+    max-width: 500px;
 }
 
 #titleDropdown option {
