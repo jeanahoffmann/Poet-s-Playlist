@@ -118,20 +118,12 @@
             <div class="genres">
                 <label for="popCheckbox"><input type="checkbox" id="popCheckbox" value="pop"> Pop</label>
                 <label for="rockCheckbox"><input type="checkbox" id="rockCheckbox" value="rock"> Rock</label>
-                <label for="countryCheckbox"><input type="checkbox" id="countryCheckbox" value="country">
-                    Country</label>
-                <label for="jazzCheckbox"><input type="checkbox" id="jazzCheckbox" value="jazz"> Jazz</label>
-                <label for="indieCheckbox"><input type="checkbox" id="indieCheckbox" value="indie"> Indie</label>
-                <label for="alternativeCheckbox"><input type="checkbox" id="alternativeCheckbox" value="alternative">
-                    Alternative</label>
-                <label for="synthpopCheckbox"><input type="checkbox" id="synthpopCheckbox" value="synthpop">
-                    Synth-pop</label>
-                <label for="poprockCheckbox"><input type="checkbox" id="poprockCheckbox" value="poprock"> Pop
-                    Rock</label>
-                <label for="musicalsCheckbox"><input type="checkbox" id="musicalsCheckbox" value="musicals">
-                    Musicals</label>
-                <label for="acousticCheckbox"><input type="checkbox" id="acousticCheckbox" value="acoustic">
-                    Acoustic</label>
+                <label for="rnbCheckbox"><input type="checkbox" id="rnbheckbox" value="rnb">
+                    R&B</label>
+                <label for="edmCheckbox"><input type="checkbox" id="edmCheckbox" value="edm"> EDM</label>
+                <label for="rapCheckbox"><input type="checkbox" id="rapCheckbox" value="rap"> Rap</label>
+                <label for="latinCheckbox"><input type="checkbox" id="latinCheckbox" value="latin">
+                    Latin</label>
             </div>
         </div>
         <div id = 'loading' style = 'display: none;'>
@@ -177,18 +169,19 @@
                 .then((data) => {
                     data.forEach(song => {
                         let tempDiv = document.createElement("div");
-                        tempDiv.innerHTML = answerBoxTemplate(song.song_name, song.song_id, song.artist);
+                        tempDiv.innerHTML = answerBoxTemplate(song.song_name, song.song_id, song.artist, song.genre);
                         document.getElementById("answer-box").appendChild(tempDiv);
                     });
                 });
             // document.getElementById('loading').style.display = 'none';
         }
 
-        function answerBoxTemplate(song_name, song_id, song_artist) {
+        function answerBoxTemplate(song_name, song_id, song_artist, song_genre) {
             document.getElementById('loading').style.display = 'none';
             return `<div class='song-player'>
                 <h3 class='episode-title'>${song_name}</h3>
                 <p class='episode-title'>${song_artist}</p>
+                <p class = 'episode-title'>${song_genre}</p>
                 <button onclick="likeSong(${song_id})">Like</button>
                 <button onclick="dislikeSong(${song_id})">Dislike</button>
 

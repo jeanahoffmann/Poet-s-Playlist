@@ -68,7 +68,7 @@ def json_search(query, genre):
     title_lst = query.split(';')
     title_lst = [title.strip() for title in title_lst]
 
-    most_similar_songs = whole_shebang(title_lst)
+    most_similar_songs = whole_shebang(title_lst, genre)
     top_indexes = most_similar_songs[:10]
 
     with open('init.json', 'r', encoding='utf-8') as f:
@@ -77,7 +77,7 @@ def json_search(query, genre):
 
     songs_df = pd.DataFrame(df['songs'][0])
     top_songs = songs_df[songs_df['song_id'].isin(top_indexes)]
-    top_titles = top_songs[['song_name']]
+    top_titles = top_songs[['song_name', 'artist', 'genre']]
 
     # top_titles = [song['song_name'] for song in songs_data if song['song_id'] in top_indexes]
     
