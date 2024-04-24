@@ -92,7 +92,7 @@ def update_recommendations():
    relevant = feedback['relevant']
    irrelevant = feedback['irrelevant']
    updated_results = rocchio.top10_with_rocchio(relevant, irrelevant, poems)
-   return json.jsonify(updated_results)
+   return jsonify(updated_results)
 
 #change ends here    
     
