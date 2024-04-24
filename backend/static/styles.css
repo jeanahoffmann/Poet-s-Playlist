@@ -117,7 +117,7 @@ body {
 
 .genres {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 3px;
   justify-content: center;
   /* Adjust margin as needed */
@@ -215,10 +215,9 @@ a.player{
     cursor: pointer;
     display: none; 
     position: absolute;
-    z-index: 999; 
+    z-index: 1000; 
+    top: 100%;
     max-height: 200px;
-    overflow-y: auto;
-    overflow-x: auto;
 }
 
 #titleDropdown option {
