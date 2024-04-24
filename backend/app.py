@@ -5,6 +5,7 @@ from flask_cors import CORS
 from helpers.MySQLDatabaseHandler import MySQLDatabaseHandler
 import pandas as pd
 from cos_sim import whole_shebang # for getting the cosine similarity
+import rocchio
 
 # ROOT_PATH for linking with all your files. 
 # Feel free to use a config.py or settings.py with a global export variable
@@ -85,13 +86,13 @@ def json_search(query, genre):
     return (matches_filtered_json)
     
 #calling rocchio from here
-#@app.route("/update_recommendations", methods=["POST"])
-#def update_recommendations():
-#    feedback = request.get_json()
-#    relevant = feedback['relevant']
-#    irrelevant = feedback['irrelevant']
-#    updated_results = top10_with_rocchio(relevant, irrelevant, poems)
-#    return jsonify(updated_results)
+@app.route("/update_recommendations", methods=["POST"])
+def update_recommendations():
+   feedback = request.get_json()
+   relevant = feedback['relevant']
+   irrelevant = feedback['irrelevant']
+   updated_results = rocchio.top10_with_rocchio(relevant, irrelevant, poems)
+   return json.jsonify(updated_results)
 
 #change ends here    
     
