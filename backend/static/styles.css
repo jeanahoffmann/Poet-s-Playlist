@@ -206,17 +206,21 @@ a.player{
 
 #dropdown stylin
 #titleDropdown {
-    width: calc(100% - 24px); /* Adjust width considering padding */
-    position: absolute;
-    top: 100%; /* Position directly below the input box */
-    left: 0;
-    padding: 12px; /* Maintain internal spacing */
-    border: 3px solid rgb(178, 113, 137);
-    border-top: none; /* Optionally remove border top for a seamless look */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    width: calc(100% - 24px);
+    padding: 10px;
+    border: 2px solid rgb(178, 113, 137); 
+    border-radius: 5px;
     background-color: white;
-    z-index: 1000; /* Ensure it stacks on top of other content */
-    display: none; /* Initially hidden */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+    outline: none;
+    cursor: pointer;
+    display: none; 
+    position: absolute;
+    z-index: 999; 
+    max-height: 200px;
+    max-width: 500px;
+    overflow-y: auto;
+    overflow-x: auto;
 }
 
 #titleDropdown option {
