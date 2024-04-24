@@ -1,6 +1,6 @@
 import json
 import os
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 from helpers.MySQLDatabaseHandler import MySQLDatabaseHandler
 import pandas as pd
@@ -34,7 +34,7 @@ with open('init.json', 'r') as file:
 def autocomplete():
     search = request.args.get('term', '')  # 'term' is what jQuery UI expects
     matches = [title for title in poem_titles if search.lower() in title.lower()]
-    return json.jsonify(matches)
+    return jsonify(matches)
 
 #commenting out home
 #@app.route("/")
