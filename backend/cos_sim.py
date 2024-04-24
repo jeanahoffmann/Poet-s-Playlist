@@ -36,7 +36,8 @@ def calc_cos_sim(poem_word_counts: dict, inverted_index: dict, idf: dict, doc_ma
   cosine_similarities = {}
 
   for document_num, score in doc_scores.items():
-    cosine_similarities[document_num] = score / (doc_magnitudes[document_num] * math.sqrt(sum(word_count**2 for word_count in poem_word_counts.values())))
+    if doc_magnitudes.get(document_num) != None:
+      cosine_similarities[document_num] = score / (doc_magnitudes[document_num] * math.sqrt(sum(word_count**2 for word_count in poem_word_counts.values())))
 
   return (cosine_similarities)
 
@@ -72,14 +73,16 @@ def get_all_word_counts(poem_indices, poem_dataset):
       total_counts[key] = total_counts.get(key, 0) + value
   return (total_counts)
 
-def whole_shebang(query): # 4/14 - Treating query as a list of poem names
+def whole_shebang(query, genre): # 4/14 - Treating query as a list of poem names
   # Load in data
   songs_and_poems, idf, inv_idx = load_data()
   
   # Clean up data
   poem_dataset = songs_and_poems[0]['poems'] # CHANGE: Updated init_json is a list of one list with two components (poem, songs)
   songs_dataset = songs_and_poems[0]['songs'] # CHANGE: Modified to match the updated init_json file
-  song_magnitudes = {index: song['magnitude'] for index, song in enumerate(songs_dataset)}
+  if len(genre) != 0:
+    songs_dataset = [song for song in songs_dataset if song['genre'] in genre]
+  song_magnitudes = {song['song_id']: song['magnitude'] for song in songs_dataset}
   
   # Get the indices and corresponding word counts:
   poem_indices = get_poem_indices(query, poem_dataset)
