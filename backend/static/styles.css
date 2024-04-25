@@ -117,7 +117,7 @@ body {
 
 .genres {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 3px;
   justify-content: center;
   /* Adjust margin as needed */
@@ -194,57 +194,4 @@ body {
   padding: 2px;
   color: black;
   text-decoration: none;
-} */
-
-/*dropdown styling*/
-.dropdown-box {
-    position: relative;
-    width: 600px; /* Match input width */
-    margin: auto;
-}
-
-#dropdown stylin
-#titleDropdown {
-    width: 600px;
-    border: 2px solid rgb(178, 113, 137); 
-    border-radius: 5px;
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
-    outline: none;
-    cursor: pointer;
-    display: none; 
-    position: absolute;
-    z-index: 999; 
-    max-height: 200px;
-    overflow-y: auto;
-    overflow-x: auto;
-}
-
-#titleDropdown option {
-    cursor: pointer;
-    border-bottom: 1px solid #eee;
-}
-
-
-#titleDropdown option:hover, #titleDropdown option:focus {
-    background-color: rgb(255, 236, 239); 
-    color: #333;
-}
-
-
-#titleDropdown::-webkit-scrollbar {
-    width: 8px; 
-}
-
-#titleDropdown::-webkit-scrollbar-track {
-    background: #f1f1f1; 
-}
-
-#titleDropdown::-webkit-scrollbar-thumb {
-    background: rgb(178, 113, 137); 
-    border-radius: 10px;
-}
-
-#titleDropdown::-webkit-scrollbar-thumb:hover {
-    background: #555; 
 }

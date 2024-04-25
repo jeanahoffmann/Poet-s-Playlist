@@ -83,6 +83,7 @@ def whole_shebang(query, genre): # 4/14 - Treating query as a list of poem names
   if len(genre) != 0:
     songs_dataset = [song for song in songs_dataset if song['genre'] in genre]
   song_magnitudes = {song['song_id']: song['magnitude'] for song in songs_dataset}
+  song_popularities = {song['song_id']: song['popularity'] for song in songs_dataset}
   
   # Get the indices and corresponding word counts:
   poem_indices = get_poem_indices(query, poem_dataset)
@@ -95,7 +96,22 @@ def whole_shebang(query, genre): # 4/14 - Treating query as a list of poem names
   # Perform the cosine similarity
   cos_sim = calc_cos_sim(word_counts, inv_idx, idf, song_magnitudes)
   sorted_list_of_docs = sorted(cos_sim, key=lambda x: cos_sim[x], reverse=True) # greatest to least similarity
-  return(sorted_list_of_docs)
+
+  ## ADDING POPULARITIES TO COS_SIM METRIC
+  a = 0.5
+  b = 0.5
+  # Normalize popularities
+  pop_min, pop_max = min(song_popularities.values()), max(song_popularities.values())
+  for (key, val) in song_popularities.items():
+    song_popularities[key] = (val-pop_min) / (pop_max-pop_min)
+  # Normalize cosine similarities
+  cos_min, cos_max = min(cos_sim.values()), max(cos_sim.values())
+  for (key, val) in cos_sim.items():
+    cos_sim[key] = (val-cos_min) / (cos_max-cos_min)
+  cos_pop_sorted_list_of_docs = sorted(cos_sim, key=lambda x: (a * cos_sim[x] + b * song_popularities[x]), reverse=True) # greatest to least similarity
+  ## ADDING POPULARITIES TO COS_SIM METRIC
+
+  return(cos_pop_sorted_list_of_docs) # change input to sorted_list_of_docs 
 
 
 
