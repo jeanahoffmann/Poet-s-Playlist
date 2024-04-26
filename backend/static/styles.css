@@ -221,7 +221,7 @@ body {
 }
 
 .dislike-button.active, .dislike-button:hover {
-    background-color: #333333; /* Dark grey */
+    background-color: #c80032;/* #333333; /* Dark grey */
 }
 
 .icon-button{
