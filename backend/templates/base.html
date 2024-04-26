@@ -183,11 +183,9 @@
         function answerBoxTemplate(song_name, song_id, song_artist, song_genre, song_link) {
             document.getElementById('loading').style.display = 'none';
             return `<div class='song-player'>
-                    <iframe src = ${song_link} style = "width: 550px; height: 200px;"  frameborder = "0" title = "player"></iframe>
+                    <iframe src = ${song_link} style = "width: 550px; height: 170px;"  frameborder = "0" title = "player"></iframe>
                     <center><button onclick="likeSong(${song_id})" class = "like-button" id = "like-${song_id}"><i class="fa-solid fa-thumbs-up"></i></button>
                     <button onclick="dislikeSong(${song_id})" class = "dislike-button" id = "dislike-${song_id}"><i class="fa-solid fa-thumbs-down"></i></button></center>
-                    <br>
-                    <br>
                     <br>
                     <br>
             </div>`;
