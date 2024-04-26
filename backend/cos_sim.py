@@ -1,5 +1,3 @@
-# PLEASE DO NOT MODIFY THIS FILE!!! If you need to add code, create another .py file to keep things clean and avoid messing things up here!!
-
 # --- Imports ---
 import numpy as np
 import re # regex
