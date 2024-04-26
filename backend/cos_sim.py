@@ -41,38 +41,6 @@ def calc_cos_sim(poem_word_counts: dict, inverted_index: dict, idf: dict, doc_ma
 
   return (cosine_similarities)
 
-def load_data():
-  with open('init.json') as f:
-    songs_and_poems = json.load(f)
-  with open('datasets/idf.json') as f:
-    idf = json.load(f)
-  with open('datasets/inv_idx.json') as f:
-    inv_idx = json.load(f)
-    
-  return (songs_and_poems, idf, inv_idx)
-
-def get_poem_indices(query, poem_dataset):
-  poem_list = []
-  
-  for poem in query:
-    poem_idx = get_poem_idx(poem, poem_dataset)
-    if poem_idx != 0:
-      poem_list.append(poem_idx)
-      
-  return (poem_list)
-  
- 
-
-
-def get_all_word_counts(poem_indices, poem_dataset):
-  # Initialize an empty dictionary to store the sum of values
-  total_counts = {}
-  for poem_idx in poem_indices:
-    individual_counts = poem_dataset[poem_idx]['word_counts']
-    for key, value in individual_counts.items():
-      total_counts[key] = total_counts.get(key, 0) + value
-  return (total_counts)
-
 #adding two functions to calculate term_contributions and get the top_10 words contributing to similarity between a poem and a song
 def get_contributions(poem_word_counts: dict, inverted_index: dict, idf: dict) -> dict:
   term_contributions = defaultdict(lambda: defaultdict(float))
@@ -95,6 +63,35 @@ def get_top_terms(poem_word_counts: dict, inverted_index: dict, idf: dict, doc_m
       top_terms[document_num] = sorted_terms[:10] #only keeping top 10 terms with the most contributions but this can be changed
    return (top_terms)
 #change ends here
+
+def load_data():
+  with open('init.json') as f:
+    songs_and_poems = json.load(f)
+  with open('datasets/idf.json') as f:
+    idf = json.load(f)
+  with open('datasets/inv_idx.json') as f:
+    inv_idx = json.load(f)
+    
+  return (songs_and_poems, idf, inv_idx)
+
+def get_poem_indices(query, poem_dataset):
+  poem_list = []
+  
+  for poem in query:
+    poem_idx = get_poem_idx(poem, poem_dataset)
+    if poem_idx != 0:
+      poem_list.append(poem_idx)
+      
+  return (poem_list)
+
+def get_all_word_counts(poem_indices, poem_dataset):
+  # Initialize an empty dictionary to store the sum of values
+  total_counts = {}
+  for poem_idx in poem_indices:
+    individual_counts = poem_dataset[poem_idx]['word_counts']
+    for key, value in individual_counts.items():
+      total_counts[key] = total_counts.get(key, 0) + value
+  return (total_counts)
 
 def whole_shebang(query, genre): # 4/14 - Treating query as a list of poem names
   # Load in data
