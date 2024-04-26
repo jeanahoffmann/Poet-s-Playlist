@@ -37,7 +37,7 @@ def create_song_index_to_title(song_dataset):
 
 #creates a rocchio updated query vector for a single query
 # Relevant_in and irrelevant_in are lists of song_ids
-# query is a song title
+# query is a list of titles 
 def calc_rocchio(query, relevant, irrelevant, song_dataset, a=.3, b=.3, c=.8, clip = True):
   input_doc_matrix = term_doc_matrix(song_dataset) #may need to be created outside of function because takes a while; or store in seperate file
   song_title_to_index = create_song_title_to_index(song_dataset)
@@ -78,7 +78,8 @@ def calc_rocchio(query, relevant, irrelevant, song_dataset, a=.3, b=.3, c=.8, cl
 
 
 #returns top 10 relevant songs 
-# Relevant_in and irrelevant_in are lists of song_ids 
+# Relevant_in and irrelevant_in are lists of song_ids
+# query is a list of titles 
 def top10_with_rocchio(query, relevant_in, irrelevant_in, song_dataset):
   input_doc_matrix = term_doc_matrix(song_dataset) #again, may need to be stored elsewhere
   song_index_to_title = create_song_index_to_title(song_dataset)

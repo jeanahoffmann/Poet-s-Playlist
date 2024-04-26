@@ -92,9 +92,12 @@ def update_recommendations():
    feedback = request.get_json()['feedback'] # Feedback empty????
    relevant = [id for id in feedback.keys() if feedback[id] == 1]
    irrelevant = [id for id in feedback.keys() if feedback[id] == -1]
+   query = request.args.get("song_name")
+   title_lst = query.split(';')
+   title_lst = [title.strip() for title in title_lst]
 #    relevant = feedback['relevant']
 #    irrelevant = feedback['irrelevant']
-   updated_results = rocchio.top10_with_rocchio(relevant, irrelevant, songs) # Replaced poems to songs
+   updated_results = rocchio.top10_with_rocchio(title_lst, relevant, irrelevant, songs) # Replaced poems to songs
    return jsonify(updated_results)
 
 #change ends here    
