@@ -3,6 +3,22 @@ body {
   /* Set the background color to beige */
 }
 
+body {
+  background-image: url('../static/images/bg.png');
+  /* Path to your image */
+  background-size: cover;
+  background-attachment: fixed;
+  /* Cover the entire page */
+}
+
+.content {
+  position: relative;
+  z-index: 10;
+  color: white;
+  /* Ensures text is visible over the background */
+  padding: 20px;
+}
+
 #header {
   display: flex;
   justify-content: center;
