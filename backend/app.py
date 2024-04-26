@@ -6,6 +6,7 @@ from helpers.MySQLDatabaseHandler import MySQLDatabaseHandler
 import pandas as pd
 from cos_sim import whole_shebang # for getting the cosine similarity
 import rocchio
+from term_contributions import get_top_contributing_terms
 
 # ROOT_PATH for linking with all your files. 
 # Feel free to use a config.py or settings.py with a global export variable
@@ -48,6 +49,18 @@ def episodes_search():
     genre = request.args.get("genre")
     return json_search(text, genre)
 #dropdown code ends here
+
+#adding code to get the top_ten_terms
+@app.route("/top_terms", methods=["GET"])
+def top_terms():
+    query = request.args.get("poem_titles")
+    title_lst = query.split(';')
+    title_lst = [title.strip() for title in title_lst]
+
+    top_terms = get_top_contributing_terms(title_lst)
+    return jsonify(top_terms)
+#end
+
     
 # Sample search using json with pandas
 def json_search(query, genre):
