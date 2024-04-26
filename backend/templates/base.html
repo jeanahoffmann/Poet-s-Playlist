@@ -16,6 +16,7 @@
     <!-- CHANGE: javascript files are deleted -->
     <!-- <script src="static/script.js" async></script> 
     <script src="static/department.js" async></script> -->
+    <!--for word cloud-->
 </head>
 
 
@@ -139,7 +140,7 @@
             <p>Please like or dislike the songs as you prefer, then click "Refresh" to see new recommendations based on
                 your feedback.</p>
         </div>
-        <button onclick="refreshResults()">Refresh Results</button>
+        <button onclick="postrefreshResults()">Refresh Results</button>
         <p id="refresh-count">Refreshes left: 5</p>
     </div>
 
@@ -182,9 +183,11 @@
         function answerBoxTemplate(song_name, song_id, song_artist, song_genre, song_link) {
             document.getElementById('loading').style.display = 'none';
             return `<div class='song-player'>
-                    <iframe src = ${song_link} style = "width: 550px; height: 200px;"  frameborder = "0" title = "player"></iframe>
-                    <button onclick="likeSong(${song_id})" class = "icon-button" id = "like-${song_id}"><i class="fa-solid fa-thumbs-up"></i></button>
-                    <button onclick="dislikeSong(${song_id})" class = "icon-button" id = "dislike-${song_id}"><i class="fa-solid fa-thumbs-down"></i></button>
+                    <iframe src = ${song_link} style = "width: 550px; height: 170px;"  frameborder = "0" title = "player"></iframe>
+                    <center><button onclick="likeSong(${song_id})" class = "like-button" id = "like-${song_id}"><i class="fa-solid fa-thumbs-up"></i></button>
+                    <button onclick="dislikeSong(${song_id})" class = "dislike-button" id = "dislike-${song_id}"><i class="fa-solid fa-thumbs-down"></i></button></center>
+                    <br>
+                    <br>
             </div>`;
         }
 
@@ -265,6 +268,45 @@
             return selectedGenres;
         }
 
+        // for word cloud
+        function drawWordCloud(data) {
+            var fill = d3.scaleOrdinal(d3.schemeCategory10);
+    
+            var layout = d3.layout.cloud()
+                .size([700, 500])
+                .words(data.map(function(d) {
+                return {text: d.term, size: d.contribution};
+            }))
+                .padding(5)
+                .rotate(function() { return ~~(Math.random() * 2) * 90; })
+                .font("Impact")
+                .fontSize(function(d) { return d.size; })
+                .on("end", draw);
+    
+    layout.start();
+
+    function draw(words) {
+        d3.select("#wordCloud").append("svg")
+            .attr("width", layout.size()[0])
+            .attr("height", layout.size()[1])
+            .append("g")
+            .attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")")
+            .selectAll("text")
+            .data(words)
+            .enter().append("text")
+            .style("font-size", function(d) { return d.size + "px"; })
+            .style("font-family", "Impact")
+            .style("fill", function(d, i) { return fill(i); })
+            .attr("text-anchor", "middle")
+            .attr("transform", function(d) {
+                return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+            })
+            .text(function(d) { return d.text; });
+        }
+    }
+    // end of word cloud stuff - need to add a fetch route to actuall draw the cloud 
+
+
         // CHANGE: Added the deleted functions back (modified a bit)
 
         // function answerBoxTemplate(song_name){ // CHANGE: We want song_names instead of other features & Deleted unused features.
@@ -293,6 +335,10 @@
 
         // }
     </script>
+</body>
+
+<body>
+    <div id="wordCloud" style="width: 700px; height: 500px;"></div>
 </body>
 
 </html>
