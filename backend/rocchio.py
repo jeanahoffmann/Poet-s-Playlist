@@ -36,22 +36,26 @@ def create_song_index_to_title(song_dataset):
 
 
 #creates a rocchio updated query vector for a single query
+# Relevant_in and irrelevant_in are lists of song_ids
+# query is a song title
 def calc_rocchio(query, relevant, irrelevant, song_dataset, a=.3, b=.3, c=.8, clip = True):
   input_doc_matrix = term_doc_matrix(song_dataset) #may need to be created outside of function because takes a while; or store in seperate file
   song_title_to_index = create_song_title_to_index(song_dataset)
+  song_id_to_index = {song_id:index for index, song_id in enumerate([d['song_id'] for d in song_dataset])}
+
   index_of_song = song_title_to_index[query]
   q0 = input_doc_matrix[index_of_song] #song lyrics as a vector
   len_of_relevant = len(relevant)
   len_of_irrelevant = len(irrelevant)
 
   sum_of_rel_vect = np.zeros(shape = len(q0))
-  for title in relevant:
-    vector = input_doc_matrix[song_title_to_index[title]]
+  for song_id in relevant:
+    vector = input_doc_matrix[song_id_to_index[song_id]]
     sum_of_rel_vect += vector
 
   sum_of_irr_vect = np.zeros(shape = len(q0))
-  for title in irrelevant:
-    vector = input_doc_matrix[song_title_to_index[title]]
+  for song_id in irrelevant:
+    vector = input_doc_matrix[song_id_to_index[song_id]]
     sum_of_irr_vect += vector
 
   if len_of_relevant == 0:
@@ -74,32 +78,27 @@ def calc_rocchio(query, relevant, irrelevant, song_dataset, a=.3, b=.3, c=.8, cl
 
 
 #returns top 10 relevant songs 
-def top10_with_rocchio(relevant_in, irrelevant_in, song_dataset):
+# Relevant_in and irrelevant_in are lists of song_ids 
+def top10_with_rocchio(query, relevant_in, irrelevant_in, song_dataset):
   input_doc_matrix = term_doc_matrix(song_dataset) #again, may need to be stored elsewhere
-  dictionary = {}
   song_index_to_title = create_song_index_to_title(song_dataset)
 
-  for (query, rel_docs) in relevant_in:
-    index_of_query = relevant_in.index((query, rel_docs))
-    irr_docs = irrelevant_in[index_of_query][1]
+  rocc_query = calc_rocchio(query = query, relevant = relevant_in, irrelevant = irrelevant_in, \
+                            song_dataset = song_dataset, \
+                            a = 0.3, b = 0.3, c = 0.8, clip = True)
 
-    rocc_query = calc_rocchio(query = query, relevant = rel_docs, irrelevant = irr_docs, \
-                              song_dataset = song_dataset, \
-                              a = 0.3, b = 0.3, c = 0.8, clip = True)
-
-    list_of_sims = []
-    for song_index in song_index_to_title:
-      d = input_doc_matrix[song_index]
-      numerator = np.dot(rocc_query,d)
-      denom = LA.norm(rocc_query) * LA.norm(d)
-      similarity = numerator/denom
-      list_of_sims.append(similarity)
+  list_of_sims = []
+  for song_index in song_index_to_title:
+    d = input_doc_matrix[song_index]
+    numerator = np.dot(rocc_query,d)
+    denom = LA.norm(rocc_query) * LA.norm(d)
+    similarity = numerator/denom
+    list_of_sims.append(similarity)
 
 
-    order_of_top_indices = np.argsort(list_of_sims)[::-1] #from highest value to lowest
+  order_of_top_indices = np.argsort(list_of_sims)[::-1] #from highest value to lowest
 
-    #get names of songs with indices from order_of_top_indices
-    query_name = [song_index_to_title[i] for i in order_of_top_indices]
-    dictionary[query] = query_name[0:10]
+  #get names of songs with indices from order_of_top_indices
+  query_name = [song_index_to_title[i] for i in order_of_top_indices]
 
-  return dictionary
+  return query_name[0:10]
