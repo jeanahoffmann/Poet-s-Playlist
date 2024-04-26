@@ -73,6 +73,29 @@ def get_all_word_counts(poem_indices, poem_dataset):
       total_counts[key] = total_counts.get(key, 0) + value
   return (total_counts)
 
+#adding two functions to calculate term_contributions and get the top_10 words contributing to similarity between a poem and a song
+def get_contributions(poem_word_counts: dict, inverted_index: dict, idf: dict) -> dict:
+  term_contributions = defaultdict(lambda: defaultdict(float))
+  for term, count in poem_word_counts.items():
+    if term in idf:
+      idf_val=idf.get(term)
+      if term in inverted_index:
+        for document_num, tf in inverted_index[term]:
+          term_contributions[document_num][term]+= (poem_word_counts[term] * tf * idf_val**2)
+  return (term_contributions)
+
+def get_top_terms(poem_word_counts: dict, inverted_index: dict, idf: dict, doc_magnitudes: dict) -> dict:
+  doc_scores = get_dot(poem_word_counts, inverted_index, idf)
+  term_contributions = get_contributions(poem_word_counts, inverted_index, idf)
+  top_terms = {}
+  poem_norm = math.sqrt(sum(count**2 for count in poem_word_counts.values()))
+  for document_num, score in doc_scores.items():
+    if document_num in doc_magnitudes:
+      sorted_terms = sorted(term_contributions[document_num].items(), key= lambda item:item[1], reverse=True )
+      top_terms[document_num] = sorted_terms[:10] #only keeping top 10 terms with the most contributions but this can be changed
+   return (top_terms)
+#change ends here
+
 def whole_shebang(query, genre): # 4/14 - Treating query as a list of poem names
   # Load in data
   songs_and_poems, idf, inv_idx = load_data()
