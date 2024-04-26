@@ -1,5 +1,3 @@
-# PLEASE DO NOT MODIFY THIS FILE!!! If you need to add code, create another .py file to keep things clean and avoid messing things up here!!
-
 # --- Imports ---
 import numpy as np
 import re # regex
@@ -61,7 +59,7 @@ def get_top_terms(poem_word_counts: dict, inverted_index: dict, idf: dict, doc_m
     if document_num in doc_magnitudes:
       sorted_terms = sorted(term_contributions[document_num].items(), key= lambda item:item[1], reverse=True )
       top_terms[document_num] = sorted_terms[:10] #only keeping top 10 terms with the most contributions but this can be changed
-   return (top_terms)
+  return (top_terms)
 #change ends here
 
 def load_data():

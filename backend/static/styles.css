@@ -198,11 +198,29 @@ body {
     cursor: pointer;
 }
 
-.button-like.active, .button-like:hover {
-    background-color: #c80032; /* Dark pink because more pink! */
+.like-button{
+  border: none;
+  background-color: transparent;
+  font-size: 30px;
+  color: rgb(178, 113, 137);
+  cursor: pointer;
+  margin: 10px;
 }
 
-.button-dislike.active, .button-dislike:hover {
+.dislike-button{
+  border: none;
+  background-color: transparent;
+  font-size: 30px;
+  color: rgb(178, 113, 137);
+  cursor: pointer;
+  margin: 10px;
+}
+
+.like-button.active, .like-button:hover {
+    color: #c80032; /* Dark pink because more pink! */
+}
+
+.dislike-button.active, .dislike-button:hover {
     background-color: #333333; /* Dark grey */
 }
 
