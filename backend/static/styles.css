@@ -190,8 +190,32 @@ body {
     background-color: #333333; /* Dark grey */
 }
 
-/* a.player{
-  padding: 2px;
-  color: black;
-  text-decoration: none;
+.icon-button{
+  border: none;
+  background-color: transparent;
+  font-size: 30px;
+  color: rgb(178, 113, 137);
+  cursor: pointer;
+  margin: 10px;
+}
+
+.dropdown-box {
+  position: relative;
+  display: inline-block;
+  border: 1px solid rgb(178, 113, 137);
+  /* max-width: 600px; */
+}
+
+#titleDropdown {
+  width: 600px;
+}
+
+.dropdown-item {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover{
+  background-color: rgba(255, 236, 239, 0.371);
+  transition: 0.3s;
 }
