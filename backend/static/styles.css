@@ -108,7 +108,7 @@ body {
   /* Adjust font size as needed */
 }
 
-#filter-text-val{
+#filter-text-val {
   /* background-color: rgb(255, 236, 239); */
   height: 45px;
   padding-left: 30px;
@@ -165,40 +165,47 @@ body {
 }
 
 @keyframes spin {
-  0% {transform: rotate(0deg);}
-  100% {transform: rotate(360deg);}
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Additional styles for buttons */
 .button-like {
-    background-color: #ff6b81; /* Light pink because pink! */
-    border: none;
-    color: white;
-    padding: 8px 16px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    transition-duration: 0.4s;
-    cursor: pointer;
+  background-color: #ff6b81;
+  /* Light pink because pink! */
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
 }
 
 .button-dislike {
-    background-color: #606060; /* Light grey */
-    border: none;
-    color: white;
-    padding: 8px 16px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    transition-duration: 0.4s;
-    cursor: pointer;
+  background-color: #606060;
+  /* Light grey */
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
 }
 
-.like-button{
+.like-button {
   border: none;
   background-color: transparent;
   font-size: 30px;
@@ -207,7 +214,7 @@ body {
   margin: 10px;
 }
 
-.dislike-button{
+.dislike-button {
   border: none;
   background-color: transparent;
   font-size: 30px;
@@ -216,15 +223,19 @@ body {
   margin: 10px;
 }
 
-.like-button.active, .like-button:hover {
-    color: #c80032; /* Dark pink because more pink! */
+.like-button.active,
+.like-button:hover {
+  color: #c80032;
+  /* Dark pink because more pink! */
 }
 
-.dislike-button.active, .dislike-button:hover {
-    background-color: #c80032;/* #333333; /* Dark grey */
+.dislike-button.active,
+.dislike-button:hover {
+  color: #c80032;
+  /* #333333; /* Dark grey */
 }
 
-.icon-button{
+.icon-button {
   border: none;
   background-color: transparent;
   font-size: 30px;
@@ -249,7 +260,7 @@ body {
   cursor: pointer;
 }
 
-.dropdown-item:hover{
+.dropdown-item:hover {
   background-color: rgba(255, 236, 239, 0.371);
   transition: 0.3s;
 }
