@@ -28,6 +28,7 @@ CORS(app)
 with open('init.json', 'r') as file:
     poems_json = json.load(file)
     poems = poems_json[0]['poems']  # Adjust depending on your JSON structure
+    songs = poems_json[0]['songs']
     poem_titles = [poem['Title'] for poem in poems]
 
 @app.route("/autocomplete", methods=["GET"])
@@ -77,7 +78,7 @@ def json_search(query, genre):
 
     songs_df = pd.DataFrame(df['songs'][0])
     top_songs = songs_df[songs_df['song_id'].isin(top_indexes)]
-    top_titles = top_songs[['song_name', 'artist', 'genre', 'src']]
+    top_titles = top_songs[['song_name', 'artist', 'genre', 'src', 'song_id']]
 
     # top_titles = [song['song_name'] for song in songs_data if song['song_id'] in top_indexes]
     
@@ -88,10 +89,12 @@ def json_search(query, genre):
 #calling rocchio from here
 @app.route("/update_recommendations", methods=["POST"])
 def update_recommendations():
-   feedback = request.get_json()
-   relevant = feedback['relevant']
-   irrelevant = feedback['irrelevant']
-   updated_results = rocchio.top10_with_rocchio(relevant, irrelevant, poems)
+   feedback = request.get_json()['feedback'] # Feedback empty????
+   relevant = [id for id in feedback.keys() if feedback[id] == 1]
+   irrelevant = [id for id in feedback.keys() if feedback[id] == -1]
+#    relevant = feedback['relevant']
+#    irrelevant = feedback['irrelevant']
+   updated_results = rocchio.top10_with_rocchio(relevant, irrelevant, songs) # Replaced poems to songs
    return jsonify(updated_results)
 
 #change ends here    

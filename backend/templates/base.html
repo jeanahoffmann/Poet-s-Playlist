@@ -90,6 +90,7 @@
             }
         
             function filterText() {
+                console.log("wrong function running");
                 const selectedTitle = document.getElementById('titleDropdown').value;
                 document.getElementById('filter-text-val').value = selectedTitle;
             }
@@ -164,7 +165,8 @@
             document.getElementById("answer-box").innerHTML = "";
             fetch("/episodes?" + new URLSearchParams({
                 song_name: document.getElementById("filter-text-val").value,
-                genre: search()
+                genre: search(),
+                user_feedback: feedback
             }).toString())
                 .then((response) => response.json())
                 .then((data) => {
@@ -181,13 +183,14 @@
             document.getElementById('loading').style.display = 'none';
             return `<div class='song-player'>
                     <iframe src = ${song_link} style = "width: 550px; height: 200px;"  frameborder = "0" title = "player"></iframe>
-                    <button onclick="likeSong(${song_id})" class = "icon-button"><i class="fa-solid fa-thumbs-up"></i></button>
-                    <button onclick="dislikeSong(${song_id})" class = "icon-button"><i class="fa-solid fa-thumbs-down"></i></button>
+                    <button onclick="likeSong(${song_id})" class = "icon-button" id = "like-${song_id}"><i class="fa-solid fa-thumbs-up"></i></button>
+                    <button onclick="dislikeSong(${song_id})" class = "icon-button" id = "dislike-${song_id}"><i class="fa-solid fa-thumbs-down"></i></button>
             </div>`;
         }
 
         
         function likeSong(song_id) {
+            console.log("song is liked");
             var likeButton = document.getElementById('like-' + song_id);
             var dislikeButton = document.getElementById('dislike-' + song_id);
             
@@ -195,6 +198,7 @@
             dislikeButton.classList.remove('active');
             
             if (likeButton.classList.contains('active')) {
+                console.log("Like", song_id);
                 feedback[song_id] = 1;
             } else {
                 delete feedback[song_id];
@@ -202,6 +206,7 @@
         }
 
         function dislikeSong(song_id) {
+            console.log("song is disliked");
             var likeButton = document.getElementById('like-' + song_id);
             var dislikeButton = document.getElementById('dislike-' + song_id);
             
@@ -209,6 +214,7 @@
             likeButton.classList.remove('active');
             
             if (dislikeButton.classList.contains('active')) {
+                console.log("Dislike", song_id);
                 feedback[song_id] = -1;
             } else {
                 delete feedback[song_id];
@@ -222,8 +228,9 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ feedback: feedback })
                 })
-                    .then(response => response.json())
-                    .then(data => {
+                    .then((response) => response.json())
+                    .then((data) => {
+                        console.log(data);
                         document.getElementById("answer-box").innerHTML = "";
                         data.forEach(song => {
                             let tempDiv = document.createElement("div");
