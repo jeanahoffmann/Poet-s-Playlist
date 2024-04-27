@@ -191,8 +191,8 @@
             </div>`;
         }
 
-        
-        function likeSong(song_id) {
+        // commenting out old rocchio code
+       /* function likeSong(song_id) {
             console.log("song is liked");
             var likeButton = document.getElementById('like-' + song_id);
             var dislikeButton = document.getElementById('dislike-' + song_id);
@@ -246,7 +246,7 @@
             } else {
                 alert("You have reached the maximum number of refreshes. Please start a new query.");
             }
-        }
+        } */
 
         //end of change
         
@@ -306,6 +306,38 @@
     }
     // end of word cloud stuff - need to add a fetch route to actuall draw the cloud 
 
+        
+    // another approach to updating - we can then fetch on app.py 
+
+    document.querySelectorAll('.like-button').forEach(button => {
+        button.addEventListener('click', function() {
+        const songId = this.getAttribute('data-song-id');
+        feedback[songId] = 1;  
+        updateButtonStyles(songId, true);
+        });
+    });
+    
+    document.querySelectorAll('.dislike-button').forEach(button => {
+        button.addEventListener('click', function() {
+             const songId = this.getAttribute('data-song-id');
+            feedback[songId] = -1; 
+            updateButtonStyles(songId, false);
+        });
+    });
+
+    function updateButtonStyles(songId, liked) {
+        const likeButton = document.querySelector(`#like-${songId}`);
+        const dislikeButton = document.querySelector(`#dislike-${songId}`);
+        if (liked) {
+            likeButton.classList.add('active');
+            dislikeButton.classList.remove('active');
+        } else {
+            likeButton.classList.remove('active');
+            dislikeButton.classList.add('active');
+        }
+    }
+
+    // end
 
         // CHANGE: Added the deleted functions back (modified a bit)
 
