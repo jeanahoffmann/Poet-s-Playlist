@@ -91,7 +91,6 @@
             }
         
             function filterText() {
-                console.log("wrong function running");
                 const selectedTitle = document.getElementById('titleDropdown').value;
                 document.getElementById('filter-text-val').value = selectedTitle;
             }
@@ -162,7 +161,6 @@
 
         function filterText() {
             document.getElementById('loading').style.display = 'block';
-            console.log("Filtering Text");
             document.getElementById("answer-box").innerHTML = "";
             fetch("/episodes?" + new URLSearchParams({
                 song_name: document.getElementById("filter-text-val").value,
@@ -229,15 +227,14 @@
                 fetch("/update_recommendations", {
                     method: "POST",
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ feedback: feedback })
+                    body: JSON.stringify({ feedback: feedback, titles: document.getElementById("filter-text-val").value })
                 })
                     .then((response) => response.json())
                     .then((data) => {
-                        console.log(data);
                         document.getElementById("answer-box").innerHTML = "";
                         data.forEach(song => {
                             let tempDiv = document.createElement("div");
-                            tempDiv.innerHTML = answerBoxTemplate(song.song_name, song.song_id);
+                            tempDiv.innerHTML = answerBoxTemplate(song.song_name, song.song_id, song.artist, song.genre, song.src);
                             document.getElementById("answer-box").appendChild(tempDiv);
                         });
                         refreshCount--;

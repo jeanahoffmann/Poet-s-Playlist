@@ -52,16 +52,6 @@ def episodes_search():
 # Sample search using json with pandas
 def json_search(query, genre):
     matches = []
-    # merged_df = pd.merge(episodes_df, reviews_df, left_on='id', right_on='id', how='inner')
-    # matches = merged_df[merged_df['title'].str.lower().str.contains(query.lower())]
-    # matches_filtered = matches[['title', 'descr', 'imdb_rating']]
-    # matches_filtered_json = matches_filtered.to_json(orient='records')
-
-    # Replace this with our search method
-    # matches = data[data["Title"].str.lower().str.contains(query.lower())]
-    # matches_filtered = matches[['Title', 'Author', 'text']]
-    # matches_filtered_json = matches_filtered.to_json(orient='records')
-    # return matches_filtered_json
     
     # Assuming query is a string poem title that exists in the database...
         # returns a sorted list of song indices (i.e. most_similar_songs[0] is the idx of the most similar song)
@@ -90,12 +80,18 @@ def json_search(query, genre):
 @app.route("/update_recommendations", methods=["POST"])
 def update_recommendations():
    feedback = request.get_json()['feedback'] # Feedback empty????
-   relevant = [id for id in feedback.keys() if feedback[id] == 1]
-   irrelevant = [id for id in feedback.keys() if feedback[id] == -1]
+   query = request.get_json()['titles']
+   title_lst = query.split(';')
+   title_lst = [title.strip() for title in title_lst]
+   relevant = [songs[int(id)]['song_name'] + '+' + songs[int(id)]['artist'] for id in feedback.keys() if feedback[id] == 1]
+   irrelevant = [songs[int(id)]['song_name'] + '+' + songs[int(id)]['artist'] for id in feedback.keys() if feedback[id] == -1]
 #    relevant = feedback['relevant']
 #    irrelevant = feedback['irrelevant']
-   updated_results = rocchio.top10_with_rocchio(relevant, irrelevant, songs) # Replaced poems to songs
-   return jsonify(updated_results)
+   updated_results = rocchio.top10_with_rocchio(title_lst, relevant, irrelevant, poems, songs, rocchio.calc_rocchio) # Replaced poems to songs
+   songs_df = pd.DataFrame(songs)
+   new_top_titles = songs_df[songs_df['song_name'].isin(updated_results)]
+   new_top_titles = new_top_titles.to_json(orient='records')
+   return new_top_titles
 
 #change ends here    
     

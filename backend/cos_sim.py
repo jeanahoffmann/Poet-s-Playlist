@@ -78,6 +78,7 @@ def whole_shebang(query, genre): # 4/14 - Treating query as a list of poem names
   # Clean up data
   poem_dataset = songs_and_poems[0]['poems'] # CHANGE: Updated init_json is a list of one list with two components (poem, songs)
   songs_dataset = songs_and_poems[0]['songs'] # CHANGE: Modified to match the updated init_json file
+
   if len(genre) != 0:
     songs_dataset = [song for song in songs_dataset if song['genre'] in genre]
   song_magnitudes = {song['song_id']: song['magnitude'] for song in songs_dataset}
