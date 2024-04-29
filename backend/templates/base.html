@@ -186,7 +186,7 @@
                 .then((data) => {
                     data.forEach(song => {
                         let tempDiv = document.createElement("div");
-                        tempDiv.innerHTML = answerBoxTemplate(song.song_name, song.song_id, song.artist, song.genre, song.src);
+                        tempDiv.innerHTML = answerBoxTemplate(song.song_name, song.song_id, song.artist, song.genre, song.src, song.color);
                         document.getElementById("answer-box").appendChild(tempDiv);
                     });
                 });
@@ -194,12 +194,13 @@
             // document.getElementById('loading').style.display = 'none';
         }
 
-        function answerBoxTemplate(song_name, song_id, song_artist, song_genre, song_link) {
+        function answerBoxTemplate(song_name, song_id, song_artist, song_genre, song_link, color) {
             document.getElementById('loading').style.display = 'none';
+            console.log(color)
             return `<div class='song-player'>
                     <iframe src = ${song_link} style = "width: 550px; height: 170px;"  frameborder = "0" title = "player"></iframe>
                     <center><button onclick="dislikeSong(${song_id})" class = "dislike-button" id = "dislike-${song_id}"><i class="fa-solid fa-thumbs-down"></i></button>
-                    <span class="dot"></span>
+                    <span class="dot" style="background-color: ${color};"></span>
                     <button onclick="likeSong(${song_id})" class = "like-button" id = "like-${song_id}"><i class="fa-solid fa-thumbs-up"></i></button></center>
                     <br>
                     <br>
@@ -252,7 +253,7 @@
                         document.getElementById("answer-box").innerHTML = "";
                         data.forEach(song => {
                             let tempDiv = document.createElement("div");
-                            tempDiv.innerHTML = answerBoxTemplate(song.song_name, song.song_id, song.artist, song.genre, song.src);
+                            tempDiv.innerHTML = answerBoxTemplate(song[0].song_name, song[0].song_id, song[0].artist, song[0].genre, song[0].src, song[1]);
                             document.getElementById("answer-box").appendChild(tempDiv);
                         });
                         refreshCount--;

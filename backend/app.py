@@ -64,20 +64,37 @@ def json_search(query, genre):
 
     # Instead of iterating through the song dataset, interate through the top indices list (shorter)
     # top_songs is list of dictionaries
-    for idx in top_indexes:
-        top_songs.append(songs[idx]) # Appending dictionary of song with song_id 'idx'
+
+    top_songs = songs_df[songs_df['song_id'].isin(top_indexes)]
+    top_titles = top_songs[['song_name', 'artist', 'genre', 'src', 'song_id']]
+    # for idx in top_indexes:
+    #     top_songs.append((songs[idx], get_color(most_similar_songs[idx]))) # Appending dictionary of song with song_id 'idx'
 
     colors = get_color_scale(list(most_similar_songs_dict.values())[:10])
+    top_titles['color'] = colors
     
     # Commented out old code
     # top_titles = top_songs[['song_name', 'artist', 'genre', 'src', 'song_id']]
     # top_titles = [song['song_name'] for song in songs_data if song['song_id'] in top_indexes]
     
     # Copied from the old code above
-    # matches_filtered_json = top_titles.to_json(orient='records') # TODO: Is this the correct format?
-    # return (matches_filtered_json)
+    matches_filtered_json = top_titles.to_json(orient='records') # TODO: Is this the correct format?
+    return (matches_filtered_json)
 
-    return jsonify(top_songs)
+    # return jsonify(top_songs)
+
+def get_color(score):
+    if score > 0.9: return "#fc1313"
+    elif score > 0.8: return "#ff4e0e"
+    elif score > 0.7: return "#fd6b27"
+    elif score > 0.6: return "#ff8c00"
+    elif score > 0.5: return "#ffbb00"
+    elif score > 0.4: return "#fdfa16"
+    elif score > 0.3: return "#e2fd34"
+    elif score > 0.2: return "#ccfb31"
+    elif score > 0.1: return "#92ff32" 
+    
+    return "#32ff1b"    
     
 def get_color_scale(top_10_similarities):
     colors = [] # from first song (1) to last (10)
