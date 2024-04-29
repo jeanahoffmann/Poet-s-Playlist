@@ -69,6 +69,11 @@ body {
   /* Adjust margin as needed */
 }
 
+.tab {
+  display: inline-block;
+  margin-left: 40px;
+}
+
 #refresh-instructions {
   margin-top: 20px;
   /* Space above the message */
@@ -175,7 +180,7 @@ body {
 }
 
 .rbscale {
-  height: 50px;
+  height: 100px;
   width: 500px;
   /* background: linear-gradient(to right, red 0%, yellow 88.6%, green 100%); */
 }
