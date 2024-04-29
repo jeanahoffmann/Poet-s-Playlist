@@ -59,7 +59,8 @@ def json_search(query, genre):
     title_lst = query.split(';')
     title_lst = [title.strip() for title in title_lst]
 
-    most_similar_songs = whole_shebang(title_lst, genre)
+    most_similar_songs_dict = whole_shebang(title_lst, genre)
+    most_similar_songs = list(most_similar_songs_dict.keys())
     top_indexes = most_similar_songs[:10]
 
     with open('init.json', 'r', encoding='utf-8') as f:
@@ -70,12 +71,29 @@ def json_search(query, genre):
     top_songs = songs_df[songs_df['song_id'].isin(top_indexes)]
     top_titles = top_songs[['song_name', 'artist', 'genre', 'src', 'song_id']]
 
+    colors = get_color_scale(list(most_similar_songs_dict.values())[:10])
+
     # top_titles = [song['song_name'] for song in songs_data if song['song_id'] in top_indexes]
     
     # Copied from the old code above
     matches_filtered_json = top_titles.to_json(orient='records') # TODO: Is this the correct format?
     return (matches_filtered_json)
     
+def get_color_scale(top_10_similarities):
+    colors = [] # from first song (1) to last (10)
+    for similarity in top_10_similarities:
+        if similarity > 0.9: colors.append("#fc1313")
+        elif similarity > 0.8: colors.append("#ff4e0e")
+        elif similarity > 0.7: colors.append("#fd6b27")
+        elif similarity > 0.6: colors.append("#ff8c00")
+        elif similarity > 0.5: colors.append("#ffbb00")
+        elif similarity > 0.4: colors.append("#fdfa16")
+        elif similarity > 0.3: colors.append("#e2fd34")
+        elif similarity > 0.2: colors.append("#ccfb31")
+        elif similarity > 0.1: colors.append("#92ff32") 
+        else: colors.append("#32ff1b")       
+    return colors
+
 #calling rocchio from here
 @app.route("/update_recommendations", methods=["POST"])
 def update_recommendations():
