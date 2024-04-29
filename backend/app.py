@@ -155,14 +155,14 @@ def update_recommendations():
 def home():
     return render_template('base.html',title="sample html")
 
-@app.route("/keywords")
-def keywords():
-    query = request.args.get("song_name")
-    title_lst = query.split(';')
-    title_lst = [title.strip() for title in title_lst]
-    top_terms = get_top_contributing_terms(title_lst)
-    top_terms_list = list(top_terms.keys())
-    return jsonify(top_terms_list)
+# @app.route("/keywords")
+# def keywords():
+#     query = request.args.get("song_name")
+#     title_lst = query.split(';')
+#     title_lst = [title.strip() for title in title_lst]
+#     top_terms = get_top_contributing_terms(title_lst)
+#     top_terms_list = list(top_terms.keys())
+#     return jsonify(top_terms_list)
 
 if 'DB_NAME' not in os.environ:
     app.run(debug=True,host="0.0.0.0",port=5000)
