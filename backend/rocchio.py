@@ -117,7 +117,11 @@ def top10_with_rocchio(queries, relevant_in, irrelevant_in, poem_dataset, song_d
 
   order_of_top_indices = np.argsort(list_of_sims)[::-1] #from highest value to lowest 
   # CHANGE: Return top 10 indices instead of titles??
-  return order_of_top_indices[0:10]
+  top_10_sims = (sorted(list_of_sims, reverse=True))[:10]
+  sim_min, sim_max = min(top_10_sims), max(top_10_sims)
+  for idx, el in enumerate(top_10_sims):
+    top_10_sims[idx] = (el-sim_min) / (sim_max-sim_min)
+  return (order_of_top_indices[0:10], top_10_sims)
 
   #Commented out old code
   # order_of_top_indices = order_of_top_indices + len(poem_dataset)
