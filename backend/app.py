@@ -40,11 +40,6 @@ def autocomplete():
     matches = [title for title in poem_titles if search.lower() in title.lower()]
     return jsonify(matches)
 
-#commenting out home
-#@app.route("/")
-#def home():
-# return render_template('base.html', title="Poet's Playlist")
-
 @app.route("/episodes")
 def episodes_search():
     text = request.args.get("song_name")
@@ -141,13 +136,6 @@ def update_recommendations():
 @app.route("/")
 def home():
     return render_template('base.html',title="sample html")
-
-#commenting out the second episodes_search
-#@app.route("/episodes")
-#def episodes_search():
-#    text = request.args.get("song_name")
-#    genre = request.args.get("genre") # List of checked genre
-#   return json_search(text, genre)
 
 if 'DB_NAME' not in os.environ:
     app.run(debug=True,host="0.0.0.0",port=5000)

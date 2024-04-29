@@ -172,6 +172,9 @@
         let feedback = {};
 
         function filterText() {
+            if(!document.getElementById("filter-text-val").value){
+                alert("Enter a poem title first!")
+            }else{
             document.getElementById('loading').style.display = 'block';
             document.getElementById("answer-box").innerHTML = "";
             fetch("/episodes?" + new URLSearchParams({
@@ -187,6 +190,7 @@
                         document.getElementById("answer-box").appendChild(tempDiv);
                     });
                 });
+            }
             // document.getElementById('loading').style.display = 'none';
         }
 
@@ -236,7 +240,8 @@
         }
 
         function refreshResults() {
-            if (refreshCount > 0) {
+            console.log(document.getElementById("filter-text-val").value)
+            if (refreshCount > 0 && document.getElementById("filter-text-val").value) {
                 fetch("/update_recommendations", {
                     method: "POST",
                     headers: { 'Content-Type': 'application/json' },
@@ -253,6 +258,8 @@
                         refreshCount--;
                         document.getElementById("refresh-count").innerText = `Refreshes left: ${refreshCount}`;
                     });
+            }else if(!document.getElementById("filter-text-val").value) {
+                alert("Enter a poem to get the recommendations first!")
             } else {
                 alert("You have reached the maximum number of refreshes. Please start a new query.");
             }
