@@ -254,7 +254,7 @@
                         document.getElementById("answer-box").innerHTML = "";
                         data.forEach(song => {
                             let tempDiv = document.createElement("div");
-                            tempDiv.innerHTML = answerBoxTemplate(song[0].song_name, song[0].song_id, song[0].artist, song[0].genre, song[0].src, song[1]);
+                            tempDiv.innerHTML = answerBoxTemplate(song.song_name, song.song_id, song.artist, song.genre, song.src, song.color);
                             document.getElementById("answer-box").appendChild(tempDiv);
                         });
                         refreshCount--;
