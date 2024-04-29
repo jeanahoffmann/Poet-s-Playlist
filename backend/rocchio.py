@@ -116,16 +116,17 @@ def top10_with_rocchio(queries, relevant_in, irrelevant_in, poem_dataset, song_d
 
 
   order_of_top_indices = np.argsort(list_of_sims)[::-1] #from highest value to lowest 
-  order_of_top_indices = order_of_top_indices + len(poem_dataset)
-  # CHANGE: Get indices instead of titles
-  # order_of_top_10 = order_of_top_indices[0:10]
+  # CHANGE: Return top 10 indices instead of titles??
+  return order_of_top_indices[0:10]
 
-  #get names of songs with indices from order_of_top_indices
-  song_names_and_auths = [song_index_to_name_auth[i] for i in order_of_top_indices]
-  output_song_name_auth = song_names_and_auths[0:10]
-  output_song_names = [item.split("+")[0] for item in output_song_name_auth]
+  #Commented out old code
+  # order_of_top_indices = order_of_top_indices + len(poem_dataset)
+  # #get names of songs with indices from order_of_top_indices
+  # song_names_and_auths = [song_index_to_name_auth[i] for i in order_of_top_indices]
+  # output_song_name_auth = song_names_and_auths[0:10]
+  # output_song_names = [item.split("+")[0] for item in output_song_name_auth]
 
-  return output_song_names
+  # return output_song_names
 
 
 

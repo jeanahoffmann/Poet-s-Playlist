@@ -25,11 +25,14 @@ with open(json_file_path, 'r') as file:
 app = Flask(__name__)
 CORS(app)
 
-with open('init.json', 'r') as file:
-    poems_json = json.load(file)
-    poems = poems_json[0]['poems']  # Adjust depending on your JSON structure
-    songs = poems_json[0]['songs']
-    poem_titles = [poem['Title'] for poem in poems]
+# Dataset
+with open('init.json', 'r', encoding='utf-8') as file: 
+    init_data = json.load(file)
+    df = pd.DataFrame(init_data)
+    poems = init_data[0]['poems']  # Adjust depending on your JSON structure
+    songs = init_data[0]['songs']  # List of dictionary of songs
+    songs_df = pd.DataFrame(df['songs'][0])  # DataFrame of songs
+    poem_titles = [poem['Title'] for poem in poems] # List of poem titles
 
 @app.route("/autocomplete", methods=["GET"])
 def autocomplete():
@@ -51,7 +54,6 @@ def episodes_search():
     
 # Sample search using json with pandas
 def json_search(query, genre):
-    matches = []
     
     # Assuming query is a string poem title that exists in the database...
         # returns a sorted list of song indices (i.e. most_similar_songs[0] is the idx of the most similar song)
@@ -62,36 +64,55 @@ def json_search(query, genre):
     most_similar_songs = whole_shebang(title_lst, genre)
     top_indexes = most_similar_songs[:10]
 
-    with open('init.json', 'r', encoding='utf-8') as f:
-        songs_data = json.load(f)
-        df = pd.DataFrame(songs_data)
+    top_songs = []
 
-    songs_df = pd.DataFrame(df['songs'][0])
-    top_songs = songs_df[songs_df['song_id'].isin(top_indexes)]
-    top_titles = top_songs[['song_name', 'artist', 'genre', 'src', 'song_id']]
-
-    # top_titles = [song['song_name'] for song in songs_data if song['song_id'] in top_indexes]
+    # Instead of iterating through the song dataset, interate through the top indices list (shorter)
+    # top_songs is list of dictionaries
+    for idx in top_indexes:
+        top_songs.append(songs[idx]) # Appending dictionary of song with song_id 'idx'
     
-    # Copied from the old code above
-    matches_filtered_json = top_titles.to_json(orient='records') # TODO: Is this the correct format?
-    return (matches_filtered_json)
+    # Commented out old code
+    # top_titles = top_songs[['song_name', 'artist', 'genre', 'src', 'song_id']]
+    # top_titles = [song['song_name'] for song in songs_data if song['song_id'] in top_indexes]
+    # matches_filtered_json = top_titles.to_json(orient='records') # TODO: Is this the correct format?
+
+    return jsonify(top_songs)
     
 #calling rocchio from here
 @app.route("/update_recommendations", methods=["POST"])
 def update_recommendations():
-   feedback = request.get_json()['feedback'] # Feedback empty????
+   feedback = request.get_json()['feedback']
+
    query = request.get_json()['titles']
    title_lst = query.split(';')
    title_lst = [title.strip() for title in title_lst]
-   relevant = [songs[int(id)]['song_name'] + '+' + songs[int(id)]['artist'] for id in feedback.keys() if feedback[id] == 1]
-   irrelevant = [songs[int(id)]['song_name'] + '+' + songs[int(id)]['artist'] for id in feedback.keys() if feedback[id] == -1]
-#    relevant = feedback['relevant']
-#    irrelevant = feedback['irrelevant']
-   updated_results = rocchio.top10_with_rocchio(title_lst, relevant, irrelevant, poems, songs, rocchio.calc_rocchio) # Replaced poems to songs
-   songs_df = pd.DataFrame(songs)
-   new_top_titles = songs_df[songs_df['song_name'].isin(updated_results)]
-   new_top_titles = new_top_titles.to_json(orient='records')
-   return new_top_titles
+
+   # Iterate through feedback dictionary. Find relevant / irrelevant lists (combined to one for-loop)
+   relevant = []
+   irrelevant = []
+
+   for id in feedback.keys():
+        
+        # If feedback == 1 (liked by user), add 'name+artist' to relevant list
+        if feedback[id] == 1:
+           relevant.append(songs[int(id)]['song_name'] + '+' + songs[int(id)]['artist'])
+
+        # If feedback == -1 (disliked by user), add 'name+artist' to irrelevant list
+        if feedback[id] == -1:
+            irrelevant.append(songs[int(id)]['song_name'] + '+' + songs[int(id)]['artist'])
+
+#    Commented out old code
+#    relevant = [songs[int(id)]['song_name'] + '+' + songs[int(id)]['artist'] for id in feedback.keys() if feedback[id] == 1]
+#    irrelevant = [songs[int(id)]['song_name'] + '+' + songs[int(id)]['artist'] for id in feedback.keys() if feedback[id] == -1]
+
+   updated_results = rocchio.top10_with_rocchio(title_lst, relevant, irrelevant, poems, songs, rocchio.calc_rocchio)
+
+   new_top_titles = []
+   for idx in updated_results:
+       new_top_titles.append(songs[idx])
+#    new_top_titles = songs_df[songs_df['song_name'].isin(updated_results)]
+#    new_top_titles = new_top_titles.to_json(orient='records')
+   return jsonify(new_top_titles)
 
 #change ends here    
     
