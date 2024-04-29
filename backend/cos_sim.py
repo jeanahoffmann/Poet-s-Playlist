@@ -61,8 +61,6 @@ def get_poem_indices(query, poem_dataset):
       poem_list.append(poem_idx)
       
   return (poem_list)
-  
- 
 
 
 def get_all_word_counts(poem_indices, poem_dataset):
@@ -139,7 +137,7 @@ def get_top_terms(poem_word_counts: dict, inverted_index: dict, idf: dict, doc_m
       sorted_terms = sorted(term_contributions[document_num].items(), key= lambda item:item[1], reverse=True )
       top_terms[document_num] = sorted_terms[:10] #only keeping top 10 terms with the most contributions but this can be changed
   return (top_terms)
-#change ends here
+
 
 def get_top_contributing_terms(query):
     songs_and_poems, idf, inv_idx = load_data()
@@ -163,47 +161,6 @@ def get_top_contributing_terms(query):
     return dict(sorted_terms[:10])  # Return top 10 terms - can be changed
 
 def rocchio_update(song_dataset, relevant, irrelevant):
-#   irrelevant = [('An English Ballad, On The Taking Of Namur, By The King Of Great Britain', ['The Frightened Lion',
-#  'Mail Drop',
-#  'How To Make A Man Of Consequence',
-#  'An Alphabet Of Old Friends',
-#  'Pastime.',
-#  'To E. G., Dedicating A Book',
-#  'Echoes.',
-#  'Doubting',
-#  'Song Of The Redwood-Tree',
-#  'A Book For The King']),
-#                ('When Love, Who Ruled.',  ['The Frightened Lion',
-#  'Mail Drop',
-#  'How To Make A Man Of Consequence',
-#  'An Alphabet Of Old Friends',
-#  'Pastime.',
-#  'To E. G., Dedicating A Book',
-#  'Echoes.',
-#  'Doubting',
-#  'Song Of The Redwood-Tree',
-#  'A Book For The King']),
-#                ('Harvest Home', ['The Frightened Lion',
-#  'Mail Drop',
-#  'How To Make A Man Of Consequence',
-#  'An Alphabet Of Old Friends',
-#  'Pastime.',
-#  'To E. G., Dedicating A Book',
-#  'Echoes.',
-#  'Doubting',
-#  'Song Of The Redwood-Tree',
-#  'A Book For The King']),]
-
-
-#   relevant = [('An English Ballad, On The Taking Of Namur, By The King Of Great Britain', \
-#   ['An English Ballad, On The Taking Of Namur, By The King Of Great Britain','When Love, Who Ruled.','Harvest Home']),
-#                ('When Love, Who Ruled.',  ['An English Ballad, On The Taking Of Namur, By The King Of Great Britain',
-#  'When Love, Who Ruled.',
-#  'Harvest Home']),
-#                ('Harvest Home', ['An English Ballad, On The Taking Of Namur, By The King Of Great Britain',
-#  'When Love, Who Ruled.',
-#  'Harvest Home']),]
-  
   poems_and_songs,_, _ = load_data()
   song_dataset = poems_and_songs[0]['songs']
 
