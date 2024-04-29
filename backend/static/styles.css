@@ -174,6 +174,12 @@ body {
   }
 }
 
+.rbscale {
+  height: 50px;
+  width: 500px;
+  /* background: linear-gradient(to right, red 0%, yellow 88.6%, green 100%); */
+}
+
 /* Additional styles for buttons */
 .button-like {
   background-color: #ff6b81;
@@ -233,6 +239,15 @@ body {
 .dislike-button:hover {
   color: #c80032;
   /* #333333; /* Dark grey */
+}
+
+.dot {
+  height: 25px;
+  width: 25px;
+  margin: 7px 7px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
 }
 
 .icon-button {
