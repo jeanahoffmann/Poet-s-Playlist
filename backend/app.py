@@ -138,14 +138,15 @@ def update_recommendations():
 #    relevant = [songs[int(id)]['song_name'] + '+' + songs[int(id)]['artist'] for id in feedback.keys() if feedback[id] == 1]
 #    irrelevant = [songs[int(id)]['song_name'] + '+' + songs[int(id)]['artist'] for id in feedback.keys() if feedback[id] == -1]
 
-   updated_results = rocchio.top10_with_rocchio(title_lst, relevant, irrelevant, poems, songs, rocchio.calc_rocchio)
-
-   new_top_titles = []
-   for idx in updated_results:
-       new_top_titles.append(songs[idx])
+   (updated_results, top_10_sims) = rocchio.top10_with_rocchio(title_lst, relevant, irrelevant, poems, songs, rocchio.calc_rocchio)
+   colors = get_color_scale(top_10_sims)
+   top_songs = songs_df[songs_df['song_id'].isin(updated_results)]
+   new_top_titles = top_songs[['song_name', 'artist', 'genre', 'src', 'song_id']]
+   new_top_titles['color'] = colors
 #    new_top_titles = songs_df[songs_df['song_name'].isin(updated_results)]
 #    new_top_titles = new_top_titles.to_json(orient='records')
-   return jsonify(new_top_titles)
+   matches_filtered_json = new_top_titles.to_json(orient='records') # TODO: Is this the correct format?
+   return (matches_filtered_json)  
 
 #change ends here    
     
