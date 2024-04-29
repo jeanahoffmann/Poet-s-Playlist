@@ -1,51 +1,138 @@
+.full-body-container{
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    width:100%;
+    height:100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-direction: column;
+}
+
+#google-c{
+    color:#4285F4;
+}
+
+#google-s{
+    color:#DB4437;
+}
+
+#google-4{
+    color:	#F4B400;
+}
+
+#google-3{
+    color:	#4285F4;
+}
+
+#google-0-1{
+    color:	#0F9D58;
+}
+
+#google-0-2{
+    color:#DB4437;
+}
+
+#poet-s-playlist{
+    color: black
+}
+
+.google-colors{
+    display: flex;
+    align-items: center;
+    font-size: 48px;
+    font-family: 'Didot', serif;
+}
+
+.google-colors h1{
+    margin-bottom: 0;
+    margin-right: 3px;
+}
+
+.input-box{
+    /* border-radius: 50px;
+    border:1px solid black; */
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    padding:12px;
+    width: 600px;
+    font-family: 'Didot', serif;
+}
+
+.input-box img{
+    height: 20px;
+    width:20px;
+}
+
+.top-text{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input-box input{
+    width: 100%;
+    margin-left: 10px;
+    font-size: 16px;
+    border: none;
+    outline: 0;
+}
+
+#answer-box{
+    width: 700px;
+    margin-top:50px; 
+}
+
+.episode-title{
+    font-family: 'Kanit', sans-serif;
+}
+
+.episode-desc{
+    font-family: 'Montserrat', sans-serif;
+}
+
 body {
   background-color: rgb(255, 236, 239);
-  /* Set the background color to beige */
 }
 
 body {
   background-image: url('../static/images/bg.png');
-  /* Path to your image */
+  /* image was doodled by a team member so no external credit*/
   background-size: cover;
   background-attachment: fixed;
-  /* Cover the entire page */
 }
 
 .content {
   position: relative;
   z-index: 10;
   color: white;
-  /* Ensures text is visible over the background */
   padding: 20px;
 }
 
 #header {
   display: flex;
   justify-content: center;
-  /* Horizontally center its children */
   align-items: center;
-  /* Vertically center its children */
   font-size: xx-large;
 }
 
 #title-and-logo {
   display: flex;
-  /* Use flexbox layout */
   align-items: center;
-  /* Vertically center its children */
 }
 
 #title {
   margin-right: 10px;
   font-size: 50px;
-  /* Add some spacing between title and logo */
 }
 
-#bear {
+#bear { /* our logo - the feather pen */
   width: 100px;
-  /* Adjust the width of the image */
   height: auto;
-  /* Maintain aspect ratio */
 }
 
 body {
@@ -66,26 +153,20 @@ body {
   flex-direction: column;
   text-align: center;
   margin-top: 20px;
-  /* Adjust margin as needed */
 }
 
 #refresh-instructions {
   margin-top: 20px;
-  /* Space above the message */
   margin-bottom: 10px;
-  /* Space below the message */
   text-align: center;
-  /* Center-align the text */
   font-size: 16px;
-  /* Appropriate text size */
   color: #333;
-  /* Dark grey color for better readability */
+  /* Dark grey for better readability */
   padding: 10px;
   border-radius: 5px;
   background-color: #f9f9f9;
   /* Light background to highlight the area */
   border: 1px solid #ccc;
-  /* Subtle border */
 }
 
 .input-box {
@@ -94,22 +175,15 @@ body {
   margin-top: 10px;
   padding: 12px;
   width: 600px;
-  /* margin-bottom: 10px;
-  margin-top: 5px; */
-  /* Adjust margin as needed */
 }
 
 .input-box input[type="text"] {
   width: 500px;
-  /* Adjust width as needed */
   padding: 10px;
-  /* Adjust padding as needed */
   font-size: 16px;
-  /* Adjust font size as needed */
 }
 
 #filter-text-val {
-  /* background-color: rgb(255, 236, 239); */
   height: 45px;
   padding-left: 30px;
   padding-right: 30px;
@@ -121,9 +195,7 @@ body {
 .search-box button {
   margin-left: -5px;
   padding: 10px;
-  /* Adjust padding as needed */
   font-size: 16px;
-  /* Adjust font size as needed */
 }
 
 .genres-container {
@@ -136,7 +208,6 @@ body {
   grid-template-columns: repeat(6, 1fr);
   gap: 3px;
   justify-content: center;
-  /* Adjust margin as needed */
 }
 
 .genres label {
@@ -174,7 +245,6 @@ body {
   }
 }
 
-/* Additional styles for buttons */
 .button-like {
   background-color: #ff6b81;
   /* Light pink because pink! */
