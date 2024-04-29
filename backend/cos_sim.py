@@ -20,12 +20,15 @@ def get_poem_idx(poem_name, poem_dataset):
 
 def get_dot(poem_word_counts: dict, inverted_index: dict, idf: dict) -> dict: # poem_word_counts is a dict with [token, num_times_appeared]
   doc_scores = {}
+  threshold = 0.1 # terms to ignore
 
   for term in poem_word_counts:
+    
     idf_val = idf.get(term)
     if idf_val is not None:
-      for document_num, tf in inverted_index[term]:
-        doc_scores[document_num] = doc_scores.get(document_num, 0) + poem_word_counts[term] * tf * idf_val**2
+      if idf.get(term, 0) > threshold:  # Filter out most common terms
+        for document_num, tf in inverted_index[term]:
+          doc_scores[document_num] = doc_scores.get(document_num, 0) + poem_word_counts[term] * tf * idf_val**2
 
   return (doc_scores)
 
