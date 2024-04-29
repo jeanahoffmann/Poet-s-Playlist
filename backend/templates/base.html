@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %} Poet's Playlist</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="../static/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,10 +12,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Kanit&family=Montserrat&family=Open+Sans:wght@500&display=swap"
         rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-    <!-- CHANGE: javascript files are deleted -->
+    <!-- CHANGE: javascript files and the things needed to draw word clouds are deleted -->
     <!-- <script src="static/script.js" async></script> 
     <script src="static/department.js" async></script> -->
-    <!--for word cloud-->
 </head>
 
 
@@ -168,7 +166,6 @@
                     });
                 });
             }
-            // document.getElementById('loading').style.display = 'none';
         }
 
         // function printKeywords(){
@@ -249,37 +246,36 @@
                             document.getElementById("answer-box").appendChild(tempDiv);
                         });
                         refreshCount--;
-                        document.getElementById("refresh-count").innerText = `Refreshes left: ${refreshCount}`;
+                        document.getElementById("refresh-count").innerText = `Refreshes left: ${refreshCount}`; //max = 5
                     });
             }else if(!document.getElementById("filter-text-val").value) {
                 alert("Enter a poem to get the recommendations first!")
             } else {
-                alert("You have reached the maximum number of refreshes. Please start a new query.");
+                alert("You have reached the maximum number of refreshes. Please start a new query."); //error for max refreshes
             }
         }
-
-        //end of change
         
         function search() {
             // Retrieve search query from the search box
-            // const searchQuery = document.getElementById('searchBox').value;
-
             // Retrieve selected genres from checkboxes
             const selectedGenres = [];
             const checkboxes = document.querySelectorAll('input[type=checkbox]:checked');
             checkboxes.forEach((checkbox) => {
                 selectedGenres.push(checkbox.value);
             });
-
             // Perform search based on the search query and selected genres
-            // You can implement your search logic here, such as making an AJAX request
-            // console.log('Search Query:', searchQuery);
             console.log('Selected Genres:', selectedGenres);
             return selectedGenres;
         }
 
-        // for word cloud
-        /*function drawWordCloud(data) {
+        /* for word cloud
+        We commented out this part because word clouds were a little messy and taking up a lot of space.
+        The logic was to get the top 10 contributing terms and their weight of contribution, 
+        then draw a word cloud with size relative to the word's contribution. For 10 song suggestions and 10 words,
+        that was 100 clouds. 
+        The fetch function was never pushed to master. 
+        
+        function drawWordCloud(data) {
             var fill = d3.scaleOrdinal(d3.schemeCategory10);
     
             var layout = d3.layout.cloud()
@@ -293,9 +289,9 @@
                 .fontSize(function(d) { return d.size; })
                 .on("end", draw);
     
-    layout.start();
+        layout.start();
 
-    function draw(words) {
+        function draw(words) {
         d3.select("#wordCloud").append("svg")
             .attr("width", layout.size()[0])
             .attr("height", layout.size()[1])
@@ -314,41 +310,36 @@
             .text(function(d) { return d.text; });
         }
     }
-    // end of word cloud stuff - need to add a fetch route to actuall draw the cloud 
     */
 
-        // CHANGE: Added the deleted functions back (modified a bit)
-
-        // function answerBoxTemplate(song_name){ // CHANGE: We want song_names instead of other features & Deleted unused features.
-        //     return `<div class=''>
-        //         <h3 class='episode-title'>${song_name}</h3> 
-                
-        //     </div>`
-        // }
+        /* CHANGE: Added the deleted functions back (modified a bit)
+            function answerBoxTemplate(song_name){ // CHANGE: We want song_names instead of other features & Deleted unused features.
+                return `<div class=''>
+                <h3 class='episode-title'>${song_name}</h3>  </div>`
+         } */
 
         function sendFocus(){
             document.getElementById('filter-text-val').focus()
         }
 
-        // function filterText(){
-        //     document.getElementById("answer-box").innerHTML = ""
-        //     console.log(document.getElementById("filter-text-val").value)
-        //     // CHANGE: Replaced URLSearchParams parameter to song_name 
-        //     fetch("/episodes?" + new URLSearchParams({ song_name: document.getElementById("filter-text-val").value, genre: search() }).toString())
-        //     .then((response) => response.json())
-        //     .then((data) => data.forEach(row => {
-                
-        //         let tempDiv = document.createElement("div")
-        //         tempDiv.innerHTML = answerBoxTemplate(row.song_name) // CHANGE: Replaced row
-        //         document.getElementById("answer-box").appendChild(tempDiv)
-        //     }));
-
-        // }
+        /* old filter text function, new one is at the top 
+        function filterText(){
+             document.getElementById("answer-box").innerHTML = ""
+             console.log(document.getElementById("filter-text-val").value)
+             fetch("/episodes?" + new URLSearchParams({ song_name: document.getElementById("filter-text-val").value, genre: search() }).toString())
+             .then((response) => response.json())
+             .then((data) => data.forEach(row => {
+                 let tempDiv = document.createElement("div")
+                 tempDiv.innerHTML = answerBoxTemplate(row.song_name) 
+                 document.getElementById("answer-box").appendChild(tempDiv)
+             }));
+        } */
+        
     </script>
 </body>
 
 <body>
-    <div id="wordCloud" style="width: 700px; height: 500px;"></div>
+   <!-- <div id="wordCloud" style="width: 700px; height: 500px;"></div> -->
 </body>
 
 </html>
