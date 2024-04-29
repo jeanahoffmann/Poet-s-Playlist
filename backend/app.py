@@ -84,30 +84,30 @@ def json_search(query, genre):
     # return jsonify(top_songs)
 
 def get_color(score):
-    if score > 0.9: return "#fc1313"
-    elif score > 0.8: return "#ff4e0e"
-    elif score > 0.7: return "#fd6b27"
-    elif score > 0.6: return "#ff8c00"
-    elif score > 0.5: return "#ffbb00"
-    elif score > 0.4: return "#fdfa16"
-    elif score > 0.3: return "#e2fd34"
-    elif score > 0.2: return "#ccfb31"
-    elif score > 0.1: return "#92ff32" 
+    if score < 0.1: return "#fc1313"
+    elif score < 0.2: return "#ff4e0e"
+    elif score < 0.3: return "#fd6b27"
+    elif score < 0.4: return "#ff8c00"
+    elif score < 0.5: return "#ffbb00"
+    elif score < 0.6: return "#fdfa16"
+    elif score < 0.7: return "#e2fd34"
+    elif score < 0.8: return "#ccfb31"
+    elif score < 0.9: return "#92ff32" 
     
     return "#32ff1b"    
     
 def get_color_scale(top_10_similarities):
     colors = [] # from first song (1) to last (10)
     for similarity in top_10_similarities:
-        if similarity > 0.9: colors.append("#fc1313")
-        elif similarity > 0.8: colors.append("#ff4e0e")
-        elif similarity > 0.7: colors.append("#fd6b27")
-        elif similarity > 0.6: colors.append("#ff8c00")
-        elif similarity > 0.5: colors.append("#ffbb00")
-        elif similarity > 0.4: colors.append("#fdfa16")
-        elif similarity > 0.3: colors.append("#e2fd34")
-        elif similarity > 0.2: colors.append("#ccfb31")
-        elif similarity > 0.1: colors.append("#92ff32") 
+        if similarity < 0.1: colors.append("#fc1313")
+        elif similarity < 0.2: colors.append("#ff4e0e")
+        elif similarity < 0.3: colors.append("#fd6b27")
+        elif similarity < 0.4: colors.append("#ff8c00")
+        elif similarity < 0.5: colors.append("#ffbb00")
+        elif similarity < 0.6: colors.append("#fdfa16")
+        elif similarity < 0.7: colors.append("#e2fd34")
+        elif similarity < 0.8: colors.append("#ccfb31")
+        elif similarity < 0.9: colors.append("#92ff32") 
         else: colors.append("#32ff1b")       
     return colors
 
