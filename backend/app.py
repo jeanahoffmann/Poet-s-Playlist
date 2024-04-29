@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 from helpers.MySQLDatabaseHandler import MySQLDatabaseHandler
 import pandas as pd
-from cos_sim import whole_shebang # for getting the cosine similarity
+from cos_sim import whole_shebang, get_top_contributing_terms # for getting the cosine similarity
 import rocchio
 
 # ROOT_PATH for linking with all your files. 
@@ -153,6 +153,15 @@ def update_recommendations():
 @app.route("/")
 def home():
     return render_template('base.html',title="sample html")
+
+@app.route("/keywords")
+def keywords():
+    query = request.args.get("song_name")
+    title_lst = query.split(';')
+    title_lst = [title.strip() for title in title_lst]
+    top_terms = get_top_contributing_terms(title_lst)
+    top_terms_list = list(top_terms.keys())
+    return jsonify(top_terms_list)
 
 if 'DB_NAME' not in os.environ:
     app.run(debug=True,host="0.0.0.0",port=5000)

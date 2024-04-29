@@ -37,7 +37,7 @@
         <!-- Add search button -->
         <div class="input-box" onclick="sendFocus()">
             <input type="text" placeholder="Enter poem titles (separated by semicolons)" id="filter-text-val" oninput="dropdownCode()">
-            <button onclick="filterText()" class = "icon-button"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <button onclick="filterText(); printKeywords()" class = "icon-button"><i class="fa-solid fa-magnifying-glass"></i></button>
         </div>
 
 
@@ -131,6 +131,7 @@
         <div id = 'loading' style = 'display: none;'>
             <div class = "loader"></div>
         </div>
+        <div id = 'keyword-box'></div>
         <div id = "answer-box">
             
         </div>
@@ -178,6 +179,7 @@
             }else{
             document.getElementById('loading').style.display = 'block';
             document.getElementById("answer-box").innerHTML = "";
+            document.getElementById('keyword-box').innerHTML = "";
             fetch("/episodes?" + new URLSearchParams({
                 song_name: document.getElementById("filter-text-val").value,
                 genre: search(),
@@ -193,6 +195,21 @@
                 });
             }
             // document.getElementById('loading').style.display = 'none';
+        }
+
+        function printKeywords(){
+            console.log("printing called");
+            fetch("/keywords?" + new URLSearchParams({
+                song_name: document.getElementById("filter-text-val").value,
+            }).toString())
+                .then((response) => response.json())
+                .then((data) => {
+                    data.forEach(song => {
+                        let tempDiv = document.createElement("div");
+                        tempDiv.innerHTML = `<div class='word'> ${song}</div>`;
+                        document.getElementById("keyword-box").appendChild(tempDiv);
+                    });
+                });
         }
 
         function answerBoxTemplate(song_name, song_id, song_artist, song_genre, song_link, color) {

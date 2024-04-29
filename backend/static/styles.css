@@ -284,3 +284,15 @@ body {
   background-color: rgba(255, 236, 239, 0.371);
   transition: 0.3s;
 }
+
+#keyword-box{
+  padding-top: 20px;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+}
+
+.word{
+  margin: 10px;
+  font-size: 18px;
+}
