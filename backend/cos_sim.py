@@ -116,8 +116,8 @@ def whole_shebang(query, genre): # 4/14 - Treating query as a list of poem names
   sorted_list_of_docs = sorted(cos_sim, key=lambda x: cos_sim[x], reverse=True) # greatest to least similarity
 
   ## ADDING POPULARITIES TO COS_SIM METRIC
-  a = 0.5
-  b = 0.5
+  a = 0.9
+  b = 0.1
   # Normalize popularities
   pop_min, pop_max = min(song_popularities.values()), max(song_popularities.values())
   for (key, val) in song_popularities.items():
@@ -133,48 +133,7 @@ def whole_shebang(query, genre): # 4/14 - Treating query as a list of poem names
 
 
 
-def rocchio_update(song_dataset, relevant, irrelevant):
-#   irrelevant = [('An English Ballad, On The Taking Of Namur, By The King Of Great Britain', ['The Frightened Lion',
-#  'Mail Drop',
-#  'How To Make A Man Of Consequence',
-#  'An Alphabet Of Old Friends',
-#  'Pastime.',
-#  'To E. G., Dedicating A Book',
-#  'Echoes.',
-#  'Doubting',
-#  'Song Of The Redwood-Tree',
-#  'A Book For The King']),
-#                ('When Love, Who Ruled.',  ['The Frightened Lion',
-#  'Mail Drop',
-#  'How To Make A Man Of Consequence',
-#  'An Alphabet Of Old Friends',
-#  'Pastime.',
-#  'To E. G., Dedicating A Book',
-#  'Echoes.',
-#  'Doubting',
-#  'Song Of The Redwood-Tree',
-#  'A Book For The King']),
-#                ('Harvest Home', ['The Frightened Lion',
-#  'Mail Drop',
-#  'How To Make A Man Of Consequence',
-#  'An Alphabet Of Old Friends',
-#  'Pastime.',
-#  'To E. G., Dedicating A Book',
-#  'Echoes.',
-#  'Doubting',
-#  'Song Of The Redwood-Tree',
-#  'A Book For The King']),]
-
-
-#   relevant = [('An English Ballad, On The Taking Of Namur, By The King Of Great Britain', \
-#   ['An English Ballad, On The Taking Of Namur, By The King Of Great Britain','When Love, Who Ruled.','Harvest Home']),
-#                ('When Love, Who Ruled.',  ['An English Ballad, On The Taking Of Namur, By The King Of Great Britain',
-#  'When Love, Who Ruled.',
-#  'Harvest Home']),
-#                ('Harvest Home', ['An English Ballad, On The Taking Of Namur, By The King Of Great Britain',
-#  'When Love, Who Ruled.',
-#  'Harvest Home']),]
-  
+def rocchio_update(song_dataset, relevant, irrelevant):  
   poems_and_songs,_, _ = load_data()
   song_dataset = poems_and_songs[0]['songs']
 
