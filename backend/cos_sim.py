@@ -127,13 +127,21 @@ def get_contributions(poem_word_counts: dict, inverted_index: dict, idf: dict) -
           term_contributions[document_num][term]+= (poem_word_counts[term] * tf * idf_val**2)
   return (term_contributions)
 
-def get_top_terms(poem_word_counts: dict, inverted_index: dict, idf: dict, doc_magnitudes: dict) -> dict:
+# Change poem_word_counts to query
+
+def get_top_terms(query: list) -> dict:
+  songs_and_poems, idf, inverted_index = load_data()
+  poem_dataset = songs_and_poems[0]['poems']
+  songs_dataset = songs_and_poems[0]['songs']
+  poem_indices = get_poem_indices(query, poem_dataset)
+  poem_word_counts = get_all_word_counts(poem_indices, poem_dataset)
+  song_magnitudes = {song['song_id']: song['magnitude'] for song in songs_dataset}
   doc_scores = get_dot(poem_word_counts, inverted_index, idf)
   term_contributions = get_contributions(poem_word_counts, inverted_index, idf)
   top_terms = {}
   poem_norm = math.sqrt(sum(count**2 for count in poem_word_counts.values()))
   for document_num, score in doc_scores.items():
-    if document_num in doc_magnitudes:
+    if document_num in song_magnitudes:
       sorted_terms = sorted(term_contributions[document_num].items(), key= lambda item:item[1], reverse=True )
       top_terms[document_num] = sorted_terms[:10] #only keeping top 10 terms with the most contributions but this can be changed
   return (top_terms)

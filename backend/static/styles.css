@@ -370,3 +370,13 @@ body {
   margin: 10px;
   font-size: 18px;
 }
+
+li{
+  display: inline-block;
+  margin-left: 12px;
+  margin-right: 12px;
+}
+
+ul{
+  padding-bottom: 30px;
+}

@@ -161,11 +161,26 @@
                 .then((data) => {
                     data.forEach(song => {
                         let tempDiv = document.createElement("div");
-                        tempDiv.innerHTML = answerBoxTemplate(song.song_name, song.song_id, song.artist, song.genre, song.src, song.color);
+                        tempDiv.innerHTML = answerBoxTemplate(song.song_name, song.song_id, song.artist, song.genre, song.src, song.color, song.keywords);
                         document.getElementById("answer-box").appendChild(tempDiv);
+                        let keywordDiv = document.createElement("div");
+                        keywordDiv.appendChild(printKeywords(song.keywords));
+                        document.getElementById("answer-box").appendChild(keywordDiv);
                     });
                 });
             }
+        }
+
+        function printKeywords(keywords){
+            console.log(keywords)
+            const container = document.createElement('ul');
+            keywords.forEach(term => {
+                const content = document.createElement('li');
+                content.textContent = term[0];
+                container.appendChild(content);
+            });
+
+            return container;
         }
 
         // function printKeywords(){
@@ -183,15 +198,14 @@
         //         });
         // }
 
-        function answerBoxTemplate(song_name, song_id, song_artist, song_genre, song_link, color) {
+
+        function answerBoxTemplate(song_name, song_id, song_artist, song_genre, song_link, color, keywords) {
             document.getElementById('loading').style.display = 'none';
-            console.log(color)
             return `<div class='song-player'>
                     <iframe src = ${song_link} style = "width: 550px; height: 170px;"  frameborder = "0" title = "player"></iframe>
                     <center><button onclick="dislikeSong(${song_id})" class = "dislike-button" id = "dislike-${song_id}"><i class="fa-solid fa-thumbs-down"></i></button>
                     <span class="dot" style="background-color: ${color};"></span>
                     <button onclick="likeSong(${song_id})" class = "like-button" id = "like-${song_id}"><i class="fa-solid fa-thumbs-up"></i></button></center>
-                    <br>
                     <br>
             </div>`;
         }
@@ -242,7 +256,7 @@
                         document.getElementById("answer-box").innerHTML = "";
                         data.forEach(song => {
                             let tempDiv = document.createElement("div");
-                            tempDiv.innerHTML = answerBoxTemplate(song.song_name, song.song_id, song.artist, song.genre, song.src, song.color);
+                            tempDiv.innerHTML = answerBoxTemplate(song.song_name, song.song_id, song.artist, song.genre, song.src, song.color, song.keywords);
                             document.getElementById("answer-box").appendChild(tempDiv);
                         });
                         refreshCount--;
@@ -321,19 +335,6 @@
         function sendFocus(){
             document.getElementById('filter-text-val').focus()
         }
-
-        /* old filter text function, new one is at the top 
-        function filterText(){
-             document.getElementById("answer-box").innerHTML = ""
-             console.log(document.getElementById("filter-text-val").value)
-             fetch("/episodes?" + new URLSearchParams({ song_name: document.getElementById("filter-text-val").value, genre: search() }).toString())
-             .then((response) => response.json())
-             .then((data) => data.forEach(row => {
-                 let tempDiv = document.createElement("div")
-                 tempDiv.innerHTML = answerBoxTemplate(row.song_name) 
-                 document.getElementById("answer-box").appendChild(tempDiv)
-             }));
-        } */
         
     </script>
 </body>
