@@ -117,14 +117,17 @@ def whole_shebang(query, genre): # 4/14 - Treating query as a list of poem names
   return(cos_pop_sorted_list_of_docs) # change input to sorted_list_of_docs 
 
 #adding two functions to calculate term_contributions and get the top_10 words contributing to similarity between a poem and a song
-def get_contributions(poem_word_counts: dict, inverted_index: dict, idf: dict) -> dict:
+def get_contributions(poem_word_counts: dict, inverted_index: dict, idf: dict, num_poems: int) -> dict:
   term_contributions = defaultdict(lambda: defaultdict(float))
   for term, count in poem_word_counts.items():
     if term in idf:
       idf_val=idf.get(term)
       if term in inverted_index:
-        for document_num, tf in inverted_index[term]:
-          term_contributions[document_num][term]+= (poem_word_counts[term] * tf * idf_val**2)
+        # only include term if term appears in < 75% of poems
+        num_term_poems = len(inverted_index[term])
+        if (num_term_poems / num_poems) < 0.75:
+          for document_num, tf in inverted_index[term]:
+            term_contributions[document_num][term]+= (poem_word_counts[term] * tf * idf_val**2)
   return (term_contributions)
 
 # Change poem_word_counts to query
@@ -132,12 +135,13 @@ def get_contributions(poem_word_counts: dict, inverted_index: dict, idf: dict) -
 def get_top_terms(query: list) -> dict:
   songs_and_poems, idf, inverted_index = load_data()
   poem_dataset = songs_and_poems[0]['poems']
+  num_poems = len(poem_dataset)
   songs_dataset = songs_and_poems[0]['songs']
   poem_indices = get_poem_indices(query, poem_dataset)
   poem_word_counts = get_all_word_counts(poem_indices, poem_dataset)
   song_magnitudes = {song['song_id']: song['magnitude'] for song in songs_dataset}
   doc_scores = get_dot(poem_word_counts, inverted_index, idf)
-  term_contributions = get_contributions(poem_word_counts, inverted_index, idf)
+  term_contributions = get_contributions(poem_word_counts, inverted_index, idf, num_poems)
   top_terms = {}
   poem_norm = math.sqrt(sum(count**2 for count in poem_word_counts.values()))
   for document_num, score in doc_scores.items():
