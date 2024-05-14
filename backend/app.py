@@ -60,13 +60,16 @@ def json_search(query, genre):
     most_similar_songs = list(most_similar_songs_dict.keys())
     top_indexes = most_similar_songs[:10]
 
-    top_songs = []
+    
 
     # Instead of iterating through the song dataset, interate through the top indices list (shorter)
     # top_songs is list of dictionaries
 
-    top_songs = songs_df[songs_df['song_id'].isin(top_indexes)]
+    # Add element by ranking, not by song_id
+    top_songs = songs_df.loc[top_indexes]
+    # top_songs = songs_df[songs_df['song_id'].isin(top_indexes)]
     top_titles = top_songs[['song_name', 'artist', 'genre', 'src', 'song_id']]
+
     # for idx in top_indexes:
     #     top_songs.append((songs[idx], get_color(most_similar_songs[idx]))) # Appending dictionary of song with song_id 'idx'
 
@@ -132,11 +135,32 @@ def update_recommendations():
 #    relevant = [songs[int(id)]['song_name'] + '+' + songs[int(id)]['artist'] for id in feedback.keys() if feedback[id] == 1]
 #    irrelevant = [songs[int(id)]['song_name'] + '+' + songs[int(id)]['artist'] for id in feedback.keys() if feedback[id] == -1]
 
-   (updated_results, top_10_sims) = rocchio.top10_with_rocchio(title_lst, relevant, irrelevant, poems, songs, rocchio.calc_rocchio)
+   (whole_updated_results, top_sims) = rocchio.top10_with_rocchio(title_lst, relevant, irrelevant, poems, songs, rocchio.calc_rocchio)
+   top_terms_dict = get_top_terms(title_lst)
+
+   index = 0
+   updated_results = []
+   top_10_sims = []
+
+   while(len(updated_results) < 10):
+       song = whole_updated_results[index]
+       if top_terms_dict.get(song) is not None:
+           updated_results.append(whole_updated_results[index])
+           top_10_sims.append(top_sims[index])
+       index = index + 1
+
    colors = get_color_scale(top_10_sims)
-   top_songs = songs_df[songs_df['song_id'].isin(updated_results)]
+#    top_songs = songs_df[songs_df['song_id'].isin(updated_results)]
+   top_songs = songs_df.loc[updated_results]
    new_top_titles = top_songs[['song_name', 'artist', 'genre', 'src', 'song_id']]
    new_top_titles['color'] = colors
+
+   top_terms_dict = get_top_terms(title_lst)
+   top_terms = []
+   for i in updated_results:
+       top_terms.append(top_terms_dict[i])
+   new_top_titles['keywords'] = top_terms
+   
    matches_filtered_json = new_top_titles.to_json(orient='records') # TODO: Is this the correct format?
    return (matches_filtered_json) 
 

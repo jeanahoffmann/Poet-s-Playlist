@@ -258,6 +258,9 @@
                             let tempDiv = document.createElement("div");
                             tempDiv.innerHTML = answerBoxTemplate(song.song_name, song.song_id, song.artist, song.genre, song.src, song.color, song.keywords);
                             document.getElementById("answer-box").appendChild(tempDiv);
+                            let keywordDiv = document.createElement("div");
+                            keywordDiv.appendChild(printKeywords(song.keywords));
+                            document.getElementById("answer-box").appendChild(keywordDiv);
                         });
                         refreshCount--;
                         document.getElementById("refresh-count").innerText = `Refreshes left: ${refreshCount}`; //max = 5
@@ -325,12 +328,6 @@
         }
     }
     */
-
-        /* CHANGE: Added the deleted functions back (modified a bit)
-            function answerBoxTemplate(song_name){ // CHANGE: We want song_names instead of other features & Deleted unused features.
-                return `<div class=''>
-                <h3 class='episode-title'>${song_name}</h3>  </div>`
-         } */
 
         function sendFocus(){
             document.getElementById('filter-text-val').focus()

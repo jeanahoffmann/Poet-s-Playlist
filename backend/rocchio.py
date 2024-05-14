@@ -114,14 +114,18 @@ def top10_with_rocchio(queries, relevant_in, irrelevant_in, poem_dataset, song_d
     similarity = numerator/denom
     list_of_sims.append(similarity)
 
-
   order_of_top_indices = np.argsort(list_of_sims)[::-1] #from highest value to lowest 
   # CHANGE: Return top 10 indices instead of titles??
-  top_10_sims = (sorted(list_of_sims, reverse=True))[:10]
+  top_10_sims = (sorted(list_of_sims, reverse=True))
+
   sim_min, sim_max = min(list_of_sims), max(list_of_sims)
   for idx, el in enumerate(top_10_sims):
     top_10_sims[idx] = (el-sim_min) / (sim_max-sim_min)
-  return (order_of_top_indices[0:10], top_10_sims)
+  return (order_of_top_indices, top_10_sims)
+
+  # for idx, el in enumerate(top_sims):
+  #   top_sims[idx] = (el - sim_min) / (sim_max - sim_min)
+  # return (top_indices, top_sims)
 
   #Commented out old code
   # order_of_top_indices = order_of_top_indices + len(poem_dataset)

@@ -26,8 +26,8 @@ def get_dot(poem_word_counts: dict, inverted_index: dict, idf: dict) -> dict: # 
     
     idf_val = idf.get(term)
     if idf_val is not None:
-      if idf.get(term, 0) > threshold:  # Filter out most common terms
-        for document_num, tf in inverted_index[term]:
+      # if idf.get(term, 0) > threshold:  # Filter out most common terms
+      for document_num, tf in inverted_index[term]:
           doc_scores[document_num] = doc_scores.get(document_num, 0) + poem_word_counts[term] * tf * idf_val**2
 
   return (doc_scores)
